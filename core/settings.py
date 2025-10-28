@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*bd^&(4x&sx^%&xpa@k$$f^uq5nx)i3caue@j=18f7b9)mq&af
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.73','baskinrobbins.hitzz.co']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.73','tsabinz.com','www.tsabinz.com']
 
 
 
@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store',
+    'order',
+    'mptt',
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [
@@ -64,6 +67,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'store.views.base_context',
+                'store.context_processors.cart_item_count'
             ],
         },
     },
@@ -78,7 +83,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'tsabindb.sqlite3',
     }
 }
 
@@ -141,3 +146,11 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# settings.py
+
+# ------------------------
+# PayPal Configuration
+# ------------------------
+PAYPAL_CLIENT_ID = "YOUR_PAYPAL_CLIENT_ID"
+PAYPAL_SECRET = "YOUR_PAYPAL_SECRET"

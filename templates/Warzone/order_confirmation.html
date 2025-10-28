@@ -1,0 +1,121 @@
+{# templates/emails/order_confirmation.html #}
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Order confirmation — Order #{{ order.id }}</title>
+  <style>
+    /* Simple email-safe inline styles (keep minimal) */
+    body { font-family: Arial, Helvetica, sans-serif; background:#f6f6f6; margin:0; padding:20px; }
+    .email-wrap { max-width:700px; margin:0 auto; background:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.06); }
+    .header { padding:20px; display:flex; align-items:center; gap:12px; border-bottom:1px solid #eee; }
+    .logo { width:40px; height:40px; object-fit:contain; }
+    .h1 { font-size:20px; margin:0; color:#111; }
+    .content { padding:20px; color:#333; font-size:14px; line-height:1.45; }
+    .muted { color:#777; font-size:13px; }
+    .order-badge { float:right; text-align:right; font-size:13px; color:#444; }
+    .items { width:100%; border-collapse: collapse; margin-top:8px; }
+    .items th, .items td { padding:10px 8px; border-bottom:1px solid #f0f0f0; vertical-align:middle; }
+    .item-thumb { width:72px; height:72px; object-fit:cover; border-radius:6px; }
+    .totals { margin-top:12px; }
+    .totals .row { display:flex; justify-content:space-between; padding:6px 0; border-top:0; }
+    .total { font-weight:700; font-size:16px; margin-top:8px; display:flex; justify-content:space-between; }
+    .button { display:inline-block; padding:10px 14px; background:#111; color:#fff; text-decoration:none; border-radius:8px; margin-top:12px; }
+    .footer { padding:16px 20px; font-size:13px; color:#888; background:#fafafa; border-top:1px solid #eee; }
+    @media screen and (max-width:480px){ .header { padding:12px; } .content { padding:14px } .logo{ width:34px;height:34px } }
+  </style>
+</head>
+<body>
+  <div class="email-wrap">
+    <div class="header">
+      {% if site_logo_url %}
+        <img src="{{ site_logo_url }}" class="logo" alt="Logo">
+      {% endif %}
+      <div>
+        <div class="h1">Thanks for your order, {{ order.name }}!</div>
+        <div class="muted">Order confirmation — #{{ order.id }}</div>
+      </div>
+      <div class="order-badge">
+        <div>{{ order.created_at|date:"M j, Y" }}</div>
+        <div class="muted">Status: {% if order.is_paid %}Paid{% else %}Pending{% endif %}</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <p>Hello {{ order.name }},</p>
+
+      <p class="muted">We received your order and will send tracking information when it ships. Below are the details of your order.</p>
+
+      <h3 style="margin-top:14px;">Items</h3>
+      <table class="items" role="presentation" width="100%">
+        <thead>
+          <tr>
+            <th align="left">Product</th>
+            <th align="center">Details</th>
+            <th align="center">Qty</th>
+            <th align="right">Line total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in order.items.all %}
+            <tr>
+              <td style="display:flex; gap:10px; align-items:center;">
+                {% if item.image_url_absolute %}
+                  <img src="{{ item.image_url_absolute }}" alt="{{ item.title }}" class="item-thumb">
+                {% endif %}
+                <div>
+                  <div style="font-weight:600;">{{ item.title }}</div>
+                  {% if item.sku %}<div class="muted" style="font-size:12px;">SKU: {{ item.sku }}</div>{% endif %}
+                </div>
+              </td>
+              <td align="center" class="muted">
+                {% if item.size %}Size: {{ item.size }}<br>{% endif %}
+                {% if item.color %}Color: {{ item.color }}{% endif %}
+              </td>
+              <td align="center">{{ item.quantity }}</td>
+              <td align="right">Rs {{ item.price|floatformat:2 }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="totals">
+        <div class="row"><span class="muted">Subtotal</span><span>Rs {{ subtotal|floatformat:2 }}</span></div>
+        <div class="row"><span class="muted">Delivery</span><span class="muted">Rs {{ order.delivery_price|floatformat:2 }}</span></div>
+        {% if order.coupon %}
+          <div class="tot-row">
+            <span>Coupon ({{ order.coupon.code }})</span>
+            <span class="text-green-600">- Rs {{ order.discount_amount|floatformat:2 }}</span>
+          </div>
+          {% endif %}
+        <div class="total"><span>Order total</span><span>Rs {{ order.total_price|floatformat:2 }}</span></div>
+      </div>
+
+      <h4 style="margin-top:18px;">Shipping address</h4>
+      <div class="muted">
+            {{ order.name }}<br>
+            {{ order.address|linebreaksbr }}<br>
+            {% if order.city %}
+                {{ order.city.name }}
+            {% endif %}
+            {% if order.landmark %}
+                — {{ order.landmark }}
+            {% endif %}<br>
+            Phone: {{ order.phone }}
+        </div>
+
+
+      {% if order.email %}
+        <p style="margin-top:14px;">A copy of this confirmation has been sent to <strong>{{ order.email }}</strong>.</p>
+      {% endif %}
+
+      <a class="button" href="{{ order_lookup_url }}">View or track your order</a>
+    </div>
+
+    <div class="footer">
+      Questions? Reply to this email or contact <a href="mailto:{{ support_email }}">{{ support_email }}</a>.
+    </div>
+  </div>
+</body>
+</html>

@@ -4,25 +4,148 @@
 {% block title %}Our Products{% endblock %}
 
 {% block content %}
-<div class="products-section" style="margin-top:50px">
-    <h2>Our Products</h2>
-    <div class="products-grid">
-        {% for product in products %}
-        <a href="{% url 'store:product_detail' product.id %}">
-        <div class="card">
-            <div class="image">
-                {% for image in product.images.all %}
-                    {% if image.is_feature %}
-                        
-                            <img src="{{ image.image.url }}" alt="{{ product.title }} Featured Image">
-                        
-                    {% endif %}
-                {% endfor %}
-            </div>
-            <span class="title">{{ product.title }}</span>
-            <span class="price">RS {{ product.price }}</span>
-        </div>
+<div class="container" style="display: flex; justify-content: flex-start; margin-bottom: -20px;">
+    <h1>{{ category.name }}s Clothing</h1>
+</div>
+<div class="subcategory-container" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+    {% if subcategories %}
+        {% for sub in subcategories %}
+            <a href="{{ sub.get_absolute_url }}" 
+               style="text-decoration: none; color: #555; font-weight: 500; padding: 6px 12px; border-radius: 6px; transition: 0.3s;">
+                {{ sub.name }}
+            </a>
         {% endfor %}
+    {% endif %}
+</div>
+
+
+<form id="filterForm" method="get" style="text-align: center; margin-bottom: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; align-items: center;">
+
+    <!-- Subcategory Filter -->
+    {% if subcategories %}
+    <label for="subcategory">Subcategory:</label>
+    <select name="subcategory" id="subcategory" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <option value="">All Subcategories</option>
+        {% for sub in subcategories %}
+            <option value="{{ sub.slug }}" {% if request.GET.subcategory == sub.slug %}selected{% endif %}>
+                {{ sub.name }}
+            </option>
+        {% endfor %}
+    </select>
+    {% endif %}
+
+    <!-- Size Filter -->
+    <label for="size">Size:</label>
+    <select name="size" id="size" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <option value="">All Sizes</option>
+        {% for s in sizes %}
+            <option value="{{ s.name }}" {% if request.GET.size == s.name %}selected{% endif %}>
+                {{ s.name }}
+            </option>
+        {% endfor %}
+    </select>
+    <label for="color">Colors:</label>
+    <select name="color" id="color" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <option value="">All Colors</option>
+        {% for c in colors %}
+            <option value="{{ c.name }}" {% if request.GET.color == c.name %}selected{% endif %}>
+                {{ c.name }}
+            </option>
+        {% endfor %}
+    </select>
+    <label for="type">Type:</label>
+    <select name="type" id="type" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <option value="">All Types</option>
+        {% for t in product_types %}
+            <option value="{{ t.name }}" {% if request.GET.type == t %}selected{% endif %}>
+                {{ t.name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <!-- Sort Filter -->
+    <label for="sort">Sort By:</label>
+    <select name="sort" id="sort" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <option value="">Sort By</option>
+        <option value="price_low_high" {% if request.GET.sort == "price_low_high" %}selected{% endif %}>Price: Low to High</option>
+        <option value="price_high_low" {% if request.GET.sort == "price_high_low" %}selected{% endif %}>Price: High to Low</option>
+        <option value="newest" {% if request.GET.sort == "newest" %}selected{% endif %}>Newest</option>
+    </select>
+
+</form>
+
+
+
+<div class="container">
+
+  <!-- Current Category -->
+  
+
+  <!-- Subcategories -->
+  
+
+  <!-- Products Grid -->
+  <div class="product-grid">
+    {% for product in products %}
+    <div class="product-item">
+        <!-- Card with Image only -->
+        <div class="product-card">
+            <a href="{% url 'store:product_detail' product.slug %}">
+                {% with product.images.first as feature_image %}
+                    {% if feature_image %}
+                        <img src="{{ feature_image.image.url }}" alt="{{ product.title }}">
+                    {% else %}
+                        <img src="{% static 'no-image.png' %}" alt="No image available">
+                    {% endif %}
+                {% endwith %}
+            </a>
+        </div>
+
+        <!-- Product Info outside of card -->
+        <div class="product-info">
+            <h3 class="product-title">{{ product.title }}</h3>
+            
+            <p class="product-price">
+                {% if product.discount_price %}
+                    <span class="discount-price">Rs {{ product.discount_price }}</span>
+                {% else %}
+                    <span class="regular-price">Rs {{ product.regular_price }}</span>
+                {% endif %}
+            </p>
+        </div>
     </div>
+    {% endfor %}
+
+    <!-- Manually added product 1 -->
+    <div class="product-item">
+        <div class="product-card">
+            <a href="#">
+                <img src="{% static 'maya1.jpg' %}" alt="Example Product 1">
+            </a>
+        </div>
+        <div class="product-info">
+            <h3 class="product-title">Example Product 1</h3>
+            <p class="product-description">This is a sample description for product 1.</p>
+            <p class="product-price"><span class="regular-price">$49.99</span></p>
+        </div>
+    </div>
+
+    <!-- Manually added product 2 -->
+    <div class="product-item">
+        <div class="product-card">
+            <a href="#">
+                <img src="{% static 'maya1.jpg' %}" alt="Example Product 2">
+            </a>
+        </div>
+        <div class="product-info">
+            <h3 class="product-title">Example Product 2</h3>
+            <p class="product-description">This is a sample description for product 2.</p>
+            <p class="product-price"><span class="discount-price">$39.99</span></p>
+        </div>
+    </div>
+</div>
+
+
+
 </div>
 {% endblock %}

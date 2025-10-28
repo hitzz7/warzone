@@ -1,184 +1,454 @@
 {% extends './navbar.html' %}
 {% load static %}
 
-{% block title %}Product Detail{% endblock %}
+{% block title %}{{ product.title }}{% endblock %}
 
 {% block content %}
-<style>
-    .product-detail-section {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 50px;
-        padding: 60px;
-        justify-content: center;
-        margin-top:60px;
-    }
-    .product-description {
-        margin-top: 40px;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        font-size: 18px;
-        line-height: 1.8;
-        color: #666;
-    }
+<div class="container">
 
-    .product-image-card {
-        width: 100%;
-        max-width: 500px;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 0px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        background-color: #F1F1F1;
-    }
-
-    .product-image {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .product-image img {
-        width: 100%;
-        border-radius: 8px;
-        object-fit: cover;
-        border: 1px solid #ddd;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .product-details {
-        width: 45%;
-        max-width: 600px;
-        font-family: 'Itronz', sans-serif;
-    }
-
-    .product-details h1 {
-        font-size: 48px;
-        margin-bottom: 20px;
-        color: #333;
-        font-family: 'Calton', sans-serif;
-    }
-
-    .product-details p {
-        font-size: 20px;
-        line-height: 1.6;
-        margin-bottom: 20px;
-        color: #555;
-    }
-
-    .product-details .price {
-        font-size: 32px;
-        font-weight: bold;
-        color: #0097b2;
-        margin-bottom: 20px;
-    }
-
-    .product-details .quantity {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-
-    .product-details .quantity input {
-        width: 50px;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        text-align: center;
-    }
-
-    .product-details .buy-button {
-        display: inline-block;
-        padding: 15px 30px;
-        background-color: #D0FF71;
-        color: black;
-        font-weight: bold;
-        text-transform: uppercase;
-        border: none;
-        border-radius: 0px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        text-align: center;
-        font-family: 'Itronz', sans-serif;
-    }
-
-    .product-details .buy-button:hover {
-        background-color: #007a8d;
-    }
-
-    .product-description {
-        margin-top: 40px;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        font-size: 18px;
-        line-height: 1.8;
-        color: #666;
-    }
-
-    .additional-images {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-
-    .additional-images img {
-        width: 30%;
-        max-width: 150px;
-        border-radius: 8px;
-        object-fit: cover;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-    }
-
-    .additional-images img:hover {
-        transform: scale(1.05);
-    }
-</style>
-
-<div class="product-detail-section">
-    <div class="product-image-card">
-        <div class="product-image">
-            <!-- Display featured image -->
-            {% for image in images %}
-                {% if image.is_feature %}
-                    <img src="{{ image.image.url }}" alt="{{ product.title }}">
-                {% endif %}
-            {% endfor %}
-            <!-- Display additional images -->
-            <div class="additional-images">
-                {% for image in images %}
-                    {% if not image.is_feature %}
-                        <img src="{{ image.image.url }}" alt="{{ product.title }}">
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
+  <!-- Left: Image Gallery -->
+  <div class="product-gallery">
+    <div class="thumbnail-column">
+        {% for img in images %}
+        <img src="{{ img.image.url }}" alt="{{ product.title }}" onclick="document.getElementById('mainImage').src=this.src">
+        {% endfor %}
     </div>
+
+    <div class="main-image">
+        {% for img in images %}
+        <img id="mainImage" src="{{ img.image.url }}" alt="{{ product.title }}">
+        {% endfor %}
+        
+    </div>
+    <div class="main-image slider" id="productSlider" aria-roledescription="carousel">
+  <div class="slides" id="slides">
+    {% for img in images %}
+    <div class="slide" data-index="{{ forloop.counter0 }}">
+      <img src="{{ img.image.url }}" alt="{{ product.title }} - {{ forloop.counter }}">
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Prev / Next (will be shown only on <=768px by CSS) -->
+  <button class="slider-btn prev" id="sliderPrev" aria-label="Previous image" type="button">&lt;</button>
+  <button class="slider-btn next" id="sliderNext" aria-label="Next image" type="button">&gt;</button>
+
+  <!-- Dots -->
+  <div class="slider-dots" id="sliderDots" role="tablist" aria-label="Image navigation">
+    {% for img in images %}
+    <button class="dot" data-index="{{ forloop.counter0 }}" aria-label="Go to image {{ forloop.counter }}" role="tab"></button>
+    {% endfor %}
+  </div>
+</div>
+    </div>
+
+  <!-- Right: Product Info -->
+  <div class="product-info">
+    <h1>{{ product.title }}</h1>
     
-    <div class="product-details">
-        <h1>{{ product.title }}</h1>
+      {% comment %} <p><strong>Category:</strong> {{ product.category.name }}</p> {% endcomment %}
+      <p><strong>product_type:</strong> {{ product.product_type.name }}</p>
+    
+    <p>{{ product.description }}</p>
 
-        <!-- Product Category -->
-        
+    <p class="price">
+      {% if product.discount_price %}
+        <span class="regular-price">Rs {{ product.regular_price }}</span>
+        <span class="discount-price">Rs {{ product.discount_price }}</span>
+      {% else %}
+        <span class="discount-price">Rs {{ product.regular_price }}</span>
+      {% endif %}
+    </p>
 
-        <p>{{ product.description }}</p>
+    <!-- Variants -->
+    {% if variants %}
+      <form method="post" class="variant-form">
+        {% csrf_token %}
 
-        <!-- Quantity input -->
-        <div class="quantity">
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" value="1" min="1" max="99">
+        <!-- Sizes -->
+        <div class="variant sizes">
+          <p><strong>Size:</strong></p>
+          <div class="options">
+            {% for size in sizes %}
+              <label class="option-label">
+                <input type="radio" name="size" value="{{ size.size__id }}">
+                <div class="option-box">{{ size.size__name }}</div>
+              </label>
+            {% endfor %}
+          </div>
         </div>
-        <p><strong>Category:</strong> {{ product.category.name }}</p>
-        
-        <div class="price">Rs {{ product.price }}</div>
-        <a href="{% url 'store:contact' %}">
-            <button class="buy-button">Order Now</button>
+
+        <!-- Colors -->
+        <div class="variant colors">
+          <p><strong>Color:</strong></p>
+          <div class="options">
+            {% for color in colors %}
+              <label class="option-label">
+                <input type="radio" name="color" value="{{ color.color__id }}">
+                <div class="color-circle" style="background-color: {{ color.color__name|lower }}"></div>
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Quantity -->
+        <div style="margin:10px 0;">
+        <label for="quantity"><strong>Quantity:</strong></label>
+        <input type="number" id="quantity" name="quantity" value="1" min="1" style="width:72px; margin-left:8px;border:1px solid #ccc; padding:6px; border-radius: 4px;   ">
+        </div>
+        <div id="variantMessage" style="color:red; margin:6px 0; font-weight:500;"></div>
+        <!-- Add to cart (button triggers JS) -->
+        <button type="button" id="addToCartBtn" class="add-to-cart-btn">Add to Cart</button>
+
+      </form>
+    {% else %}
+      <p><strong>No variants available.</strong></p>
+    {% endif %}
+  </div>
+
+</div>
+<!-- Related Products Section -->
+ <section class="related-products">
+  <h2>Similar Products</h2>
+  <div class="container">
+    
+    <div class="product-grid">
+      {% for related in related_products %}
+      <div class="product-item">
+        <div class="product-card">
+          <a href="{% url 'store:product_detail' related.slug %}">
+            {% with related.images.first as feature_image %}
+              {% if feature_image %}
+                <img src="{{ feature_image.image.url }}" alt="{{ related.title }}">
+            {% else %}
+              <img src="{% static 'no-image.png' %}" alt="No image available">
+            {% endif %}
+          {% endwith %}
         </a>
+      </div>
+
+      <div class="product-info">
+        <h3 class="product-title">{{ related.title }}</h3>
+        <p class="product-price">
+          {% if related.discount_price %}
+            <span class="discount-price">Rs {{ related.discount_price }}</span>
+          {% else %}
+            <span class="regular-price">Rs {{ related.regular_price }}</span>
+          {% endif %}
+        </p>
+      </div>
     </div>
+    {% empty %}
+    <p>No other products in this category.</p>
+    {% endfor %}
+  </div>
 </div>
 
+
+  <section class="hero-section">
+    <video autoplay muted loop playsinline>
+      <source src="{% static 'Fur (1).mp4' %}" type="video/mp4" alt="Tsabinz Winter Collection">
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-text">
+      <h1>Our Winter Collection</h1>
+      <p>Winter is here Chic and cozy jackets that keep you warm</p>
+      <a href="{% url 'store:product_list' %}?product_type=winter" class="hero-btn">Shop now</a>
+    </div>
+  </section>
+
+
+    <section class="category-row">
+    <div class="category">
+      <span class="category-title">New Arrivals</span>
+      <div class="category-subtitles">
+        <a href="{% url 'store:category_products' 'women' %}?sort=newest" class="category-btn">Women</a>
+<a href="{% url 'store:category_products' 'men' %}?sort=newest" class="category-btn">Men</a>
+      </div>
+    </div>
+
+    <div class="category">
+      <span class="category-title">Best Sellers</span>
+      <div class="category-subtitles">
+        <a href="{% url 'store:category_products' 'women' %}?sort=best_selling" class="category-btn">Women</a>
+    <a href="{% url 'store:category_products' 'men' %}?sort=best_selling" class="category-btn">Men</a>
+      </div>
+    </div>
+
+    <div class="category">
+      <span class="category-title">Underwear</span>
+      <div class="category-subtitles">
+        <button class="category-btn">Women</button>
+        <button class="category-btn">Men</button>
+      </div>
+    </div>
+
+    <div class="category">
+      <span class="category-title">Tops</span>
+      <div class="category-subtitles">
+        <button class="category-btn">Women</button>
+        <button class="category-btn">Men</button>
+      </div>
+    </div>
+  </section>
+<script>
+  (function() {
+    // If you have a fixed header element, update the CSS variable so sticky top is correct.
+    // Adjust the selector to match your header if it's not <header>.
+    function setHeaderHeight() {
+      var header = document.querySelector('header') || document.querySelector('.navbar') || null;
+      var h = 0;
+      if (header) {
+        var style = window.getComputedStyle(header);
+        // only count header's visible height
+        h = header.getBoundingClientRect().height;
+        // add margin if header has bottom margin
+        var marginBottom = parseFloat(style.marginBottom) || 0;
+        h = h + marginBottom;
+      }
+      document.documentElement.style.setProperty('--header-height', h + 'px');
+    }
+
+    // set on load and on resize (in case header changes)
+    window.addEventListener('load', setHeaderHeight);
+    window.addEventListener('resize', setHeaderHeight);
+    setHeaderHeight();
+  })();
+</script>
+<script>
+(function() {
+  const slidesEl = document.getElementById('slides');
+  if (!slidesEl) return; // no slider present (safe exit)
+
+  const slides = Array.from(slidesEl.querySelectorAll('.slide'));
+  const prevBtn = document.getElementById('sliderPrev');
+  const nextBtn = document.getElementById('sliderNext');
+  const dotsContainer = document.getElementById('sliderDots');
+  const dots = dotsContainer ? Array.from(dotsContainer.querySelectorAll('.dot')) : [];
+  let index = 0;
+  const total = slides.length;
+
+  if (total <= 1) {
+    // Nothing to do: hide controls for single image
+    if (prevBtn) prevBtn.style.display = 'none';
+    if (nextBtn) nextBtn.style.display = 'none';
+    if (dotsContainer) dotsContainer.style.display = 'none';
+    return;
+  }
+
+  const mq = window.matchMedia('(max-width: 768px)');
+  let sliderActive = false;
+  let touchStartX = 0;
+  let touchEndX = 0;
+  const threshold = 50;
+
+  // handlers so we can add/remove easily
+  function updateActiveDot() {
+    dots.forEach((d,i)=> d.classList.toggle('active', i===index));
+  }
+  function goTo(i) {
+    if (i < 0) i = total - 1;
+    if (i >= total) i = 0;
+    index = i;
+    slidesEl.style.transform = `translateX(-${index * 100}%)`;
+    updateActiveDot();
+  }
+  function onPrevClick(){ goTo(index - 1); }
+  function onNextClick(){ goTo(index + 1); }
+  function onKeyDown(e){ if (e.key === 'ArrowLeft') goTo(index-1); if (e.key === 'ArrowRight') goTo(index+1); }
+  function onTouchStart(e){ touchStartX = e.changedTouches[0].clientX; }
+  function onTouchEnd(e){
+    touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > threshold) { diff>0?goTo(index+1):goTo(index-1); }
+  }
+  function onDotClick(e){ const to = parseInt(this.getAttribute('data-index'),10); goTo(isNaN(to)?0:to); }
+
+  function enableSlider() {
+    if (sliderActive) return;
+    sliderActive = true;
+    // show controls (CSS handles visual show, but ensure display)
+    if (prevBtn) prevBtn.style.display = '';
+    if (nextBtn) nextBtn.style.display = '';
+    if (dotsContainer) dotsContainer.style.display = '';
+    // add listeners
+    prevBtn && prevBtn.addEventListener('click', onPrevClick);
+    nextBtn && nextBtn.addEventListener('click', onNextClick);
+    window.addEventListener('keydown', onKeyDown);
+    slidesEl.addEventListener('touchstart', onTouchStart, {passive:true});
+    slidesEl.addEventListener('touchend', onTouchEnd, {passive:true});
+    dots.forEach(dot => dot.addEventListener('click', onDotClick));
+    // init slide pos
+    goTo(0);
+  }
+
+  function disableSlider() {
+    if (!sliderActive) return;
+    sliderActive = false;
+    // remove listeners
+    prevBtn && prevBtn.removeEventListener('click', onPrevClick);
+    nextBtn && nextBtn.removeEventListener('click', onNextClick);
+    window.removeEventListener('keydown', onKeyDown);
+    slidesEl.removeEventListener('touchstart', onTouchStart, {passive:true});
+    slidesEl.removeEventListener('touchend', onTouchEnd, {passive:true});
+    dots.forEach(dot => dot.removeEventListener('click', onDotClick));
+    // reset transform so slides won't remain translated when desktop shows (safety)
+    slidesEl.style.transform = '';
+    // hide controls (CSS will hide, but we ensure)
+    if (prevBtn) prevBtn.style.display = 'none';
+    if (nextBtn) nextBtn.style.display = 'none';
+    if (dotsContainer) dotsContainer.style.display = 'none';
+  }
+
+  // initial setup based on viewport
+  function checkMq(e) {
+    if (mq.matches) {
+      enableSlider();
+    } else {
+      disableSlider();
+    }
+  }
+
+  // listen for changes
+  mq.addEventListener ? mq.addEventListener('change', checkMq) : mq.addListener(checkMq);
+  // run initial
+  checkMq();
+
+  // Optional: clicking thumbnails on desktop should swap the main desktop image (if you still want that)
+  document.querySelectorAll('.thumbnail-column img').forEach((thumb, i) => {
+    thumb.addEventListener('click', function() {
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        // when mobile, go to the slider index
+        goTo(i);
+        document.getElementById('productSlider').scrollIntoView({behavior:'smooth', block:'center'});
+      } else {
+        // desktop: if you want to swap a single visible main image, you can implement it here.
+        // For example, replace the src of the first .desktop-main-img element:
+        const mainDesktop = document.querySelector('.main-image-desktop .desktop-main-img');
+        if (mainDesktop) mainDesktop.src = this.src;
+      }
+    });
+  });
+
+  // update --header-height variable if you use sticky header (keeps slider height calc correct)
+  function setHeaderHeightVariable() {
+    var header = document.querySelector('header') || document.querySelector('.navbar');
+    var h = 0;
+    if (header) {
+      var style = window.getComputedStyle(header);
+      h = header.getBoundingClientRect().height;
+      var marginBottom = parseFloat(style.marginBottom) || 0;
+      h = h + marginBottom;
+    }
+    document.documentElement.style.setProperty('--header-height', h + 'px');
+  }
+  window.addEventListener('load', setHeaderHeightVariable);
+  window.addEventListener('resize', setHeaderHeightVariable);
+  setHeaderHeightVariable();
+
+})();
+</script>
+<script>
+/* Build a map of sizeId_colorId => variantId so we can look up the variant */
+const variantMap = {};
+{% for v in variants %}
+  /* v.size.id and v.color.id are Django model attributes */
+  variantMap["{{ v.size.id }}_{{ v.color.id }}"] = "{{ v.id }}";
+{% endfor %}
+
+/* Helper to read selected radio value */
+function getCheckedValue(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : null;
+}
+
+/* Fallback addToCart if your global function isn't present.
+   This POSTs to the cart_add endpoint and then opens drawer (if present). */
+async function _fallbackAddToCart(variant_id, qty=1) {
+  const csrftoken = (function() {
+    const match = document.cookie.match(new RegExp('(^| )csrftoken=([^;]+)'));
+    return match ? match[2] : '';
+  })();
+
+  const body = new URLSearchParams();
+  body.append('variant_id', variant_id);
+  body.append('quantity', qty);
+
+  const resp = await fetch("{% url 'store:cart_add' %}", {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': csrftoken,
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    },
+    body: body.toString()
+  });
+  if (!resp.ok) {
+    const txt = await resp.text();
+    console.error('Add to cart failed', resp.status, txt);
+    alert('Could not add to cart. Try again.');
+    return;
+  }
+  const data = await resp.json();
+
+  // If you have a drawer open function, call it; otherwise optionally open by toggling class.
+  if (typeof openCart === 'function') {
+    openCart();
+  } else if (typeof showCartDrawer === 'function') {
+    showCartDrawer();
+  } else {
+    // try to render cart if cart drawer exists and cart_json endpoint available
+    if (typeof renderCart === 'function') {
+      renderCart(data);
+      // open drawer if you use #cartDrawer.open class
+      const el = document.getElementById('cartDrawer');
+      if (el) el.classList.add('open');
+    } else {
+      // fallback UI feedback
+      alert('Added to cart');
+    }
+  }
+}
+const messageDiv = document.getElementById('variantMessage');
+/* Main click handler wired to Add to Cart button */
+document.getElementById('addToCartBtn').addEventListener('click', function (e) {
+  e.preventDefault();
+  messageDiv.textContent = '';
+  const size = getCheckedValue('size');   // e.g., "3" (size id)
+  const color = getCheckedValue('color'); // e.g., "5" (color id)
+  const qtyInput = document.getElementById('quantity');
+  const qty = qtyInput ? Math.max(1, parseInt(qtyInput.value) || 1) : 1;
+
+  if (!size) {
+    messageDiv.textContent = 'Please select a size.';
+    return;
+  }
+  if (!color) {
+    messageDiv.textContent = 'Please select a color.';
+    return;
+  }
+
+  const key = `${size}_${color}`;
+  const variantId = variantMap[key];
+  if (!variantId) {
+    messageDiv.textContent = 'Selected size + color combination is not available.';
+    return;
+  }
+  messageDiv.textContent = '';
+  // If you already have a global addToCart function (from earlier code), use it.
+  if (typeof addToCart === 'function') {
+    addToCart(variantId, qty);
+  } else {
+    // fallback: call the inline POST function above
+    _fallbackAddToCart(variantId, qty);
+  }
+});
+</script>
+
+
+{% endblock %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
 {% endblock %}

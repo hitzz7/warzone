@@ -1,145 +1,235 @@
-{% extends './navbar.html' %}
+{% extends './navbar.html' %}100px
 {% load static %}
 
-{% block title %}Baskin Robbins{% endblock %}
+{% block title %}Tsabinz Official{% endblock %}
 
 {% block content %}
 <div class="bg-image">
-    <video  autoplay muted loop>
-        <source src="{% static 'br.mp4' %}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+        <img src="{% static 'black.png' %}" alt="Poster" class="poster" id="videoPoster">
+    
+        <video autoplay muted loop playsinline id="homepageVideo">
+            <source src="{% static 'tsabinvideoc.mp4' %}" type="video/mp4" alt="Tsabinz TGIF Fashion Week">
+            Your browser does not support the video tag.
+        </video>
+            
+    
     <div class="text-overlay">
-        <h1>Baskin Robbins Nepal</h1>
-        <p>Is Here For Your Happiness</p>
-        <button class="button">View Different Flavours</button>
+        
+        <h1>Tsabinz Official</h1>
+        <p>Redefining Street Fashion</p>
+        <a href="{% url 'store:category_products' 'all' %}?sort=newest">
+            <button class="button">Shop our latest collections</button>
+        </a>
+
+        
         
     </div>
-    <div class="social-media">
-        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+    
+    
+
+    
+   
+</div>
+<section class="heading-section">
+    <h3>Shop By Gender</h3>
+    <h2>Discover products that match your style and personality</h2>
+
+  </section>
+
+ <section class="split-section">
+    <div class="split">
+      <img src="{% static "ts1.jpg"%}" alt="Tsabinz Women Clothing">
+      <div class="overlay">
+        <h2>For Her</h2>
+        <p>Discover our latest collection for women. Elegant, stylish, and perfect for every occasion.</p>
+          <a href="{% url 'store:category_products' 'women' %}">
+              <button class="button">Shop Now</button>
+          </a>
+      </div>
     </div>
-    <div class="image-overlay">
-        <img src="{% static 'icelogo.png' %}" alt="Ice Cream Logo">
+    <div class="split">
+      <img src="{% static "ts2.jpg"%}" alt="Tsabinz Men Clothing">
+      <div class="overlay">
+        <h2>For Him</h2>
+        <p>Explore our latest collection for men. Stylish, modern, and perfect for any occasion.</p>
+        <a href="{% url 'store:category_products' 'men' %}">
+              <button class="button">Shop Now</button>
+          </a>
+      
+      </div>
     </div>
+  </section>
+  {% comment %} <section class="heading-section">
+    <h1>Shop By Categoryer</h1>
+    <h2>We design creative and modern web experiences</h2>
+  </section> {% endcomment %}
+  
+  <div class="swim-video">
+    
+        <img src="{% static 'swim2.jpg' %}" alt="Tsabinz SwimWear">
+        
+    
+    <div class="hero-text">
+        
+        <h2>SwimWear Collection</h2>
+        <p>Make your Summer Unforgettable</p>
+        <a href="{% url 'store:subcategory_products' 'women' 'swimwear' %}">
+            <button class="button">Shop our latest collection</button>
+        </a>
+
+        
+        
+    </div>
+    
+    
 
     
    
 </div>
 
-    
-<div class="products-section" style="margin-top:50px">
-    <h2>IceCreams</h2>
-    <p style="color:#F05098;">best selling icecreams</p>
 
-    <div class="products-grid">
-        {% for product in products %}
-        <a href=8">
-        <div class="card">
-            <div class="image">
-                {% for image in product.images.all %}
-                    {% if image.is_feature %}
-                        
-                            <img src="{{ image.image.url }}" alt="{{ product.title }} Featured Image">
-                        
-                    {% endif %}
-                {% endfor %}
-            </div>
-            <span class="title">{{ product.title }}</span>
-            <span class="price">RS {{ product.price }}</span>
-        </div>
-        {% endfor %}
+
+
+
+
+<section class="heading-section">
+    <h3>Shop By Categoryer</h3>
+    <h2>Explore our handpicked collections tailored just for you</h2>
+
+
+  </section>
+
+
+
+ <section class="four-grid-section">
+    <div class="four-grid-item">
+      <img src="{% static "top.jpg"%}" alt="Tsabinz Tops">
+      <div class="four-overlay">
+        <h2>Tops</h2>
+        <p>perfect for any occasion, crafted for comfort and modern fashion.</p>
+        <div class="four-overlayb">
+          <a href="{% url 'store:subcategory_products' 'women' 'tops' %}">
+            <button class="button">Shop Now</button>
+        </a>
+
+          
+      </div>
+      </div>
     </div>
-    <button class="cta-button">View all Flavours</button>
-</div>
-<div class="services-section">
-    
-    <div class="service-box">
-        <img src="{% static 'brblue.jpg' %}" alt="Service Image" class="service-image">
-        <div class="service-text">
-            <h3>Cotton Candy</h3>
-            <p>
-                Baskin-Robbins Cotton Candy ice cream is a fan-favorite flavor that brings the nostalgic taste of classic carnival cotton candy into a creamy frozen treat. It features a swirl of pink and blue cotton candy-flavored ice cream, creating a fun, colorful, and sweet experience with every scoop.
-            </p>
-            <p>RS 500</p>
-            <button class="cta-button">Add to Cart</button>
-        </div>
+    <div class="four-grid-item">
+      <img src="{% static "body.jpg"%}" alt="Tsabinz Dresses">
+      <div class="four-overlay">
+        <h2>Dress</h2>
+        <p>Sleek and flattering dresses that hug your curves</p>
+        <div class="four-overlayb">
+          <a href="{% url 'store:subcategory_products' 'women' 'tops' %}">
+            <button class="button">Shop Now</button>
+        </a>
+      </div>
+      </div>
     </div>
-    <h2>Shop By Category</h2>
-    <h7>variety of icecream available</h7>
-    
-    <div class="service-cards">
-        <div class="cardd">
-            <img src="{% static 'icea.jpg' %}" alt="Maintenance Image" class="card-image">
-            <div class="overlay">
-                <h4>Scoops</h4>
-            </div>
-        </div>
-        <div class="cardd">
-            <img src="{% static 'iceb.jpg' %}" alt="Maintenance Image" class="card-image">
-            <div class="overlay">
-                <h4>Bars</h4>
-            </div>
-        </div>
-        <div class="cardd">
-            <img src="{% static 'icec.jpg' %}" alt="Maintenance Image" class="card-image">
-            <div class="overlay">
-                <h4>cones</h4>
-            </div>
-        </div>
+    <div class="four-grid-item">
+      <img src="{% static "jack.jpg"%}" alt="Tsabinz Jackets">
+      <div class="four-overlay">
+        <h2>Jackets</h2>
+        <p>Chic and cozy jackets that keep you warm </p>
+        <div class="four-overlayb">
+          <a href="{% url 'store:subcategory_products' 'women' 'tops' %}">
+            <button class="button">Shop Now</button>
+        </a>
+      </div>
+      </div>
     </div>
-    
-    
-</div>
-
-<div class="work-section">
-    <h2>Cafes</h2>
-    <h3>Baskin Robbins City Mall Cafe<h3>
-    <div class="projects-grid">
-        
-        <div class="project-card">
-            <div class="image">
-                
-                    
-                        
-                            <img src="{% static 'bbmall.jpg' %}" alt="image">
-                        
-                    
-                
-            </div>
-            
-        </div>
-        <p>BR Cafe is a cozy and vibrant space where indulgence meets relaxation. Known for its unique blend of premium coffees and world-renowned ice creams, BR Cafe offers a warm, inviting atmosphere perfect for friends, families, or a quiet solo retreat. </p>
-        
+    <div class="four-grid-item">
+      <img src="{% static "swim.jpg"%}" alt="Tsabinz SwimWear">
+      <div class="four-overlay">
+        <h2>Swim Wear</h2>
+        <p>Make your Summer Unforgettable</p>
+        <div class="four-overlayb">
+          <a href="{% url 'store:subcategory_products' 'women' 'tops' %}">
+            <button class="button">Shop Now</button>
+        </a>
+      </div>
+      </div>
     </div>
-    <button class="cta-button">More Cafes</button>
-</div>
-<h2 style="text-align:center;">About Us</h2>
-<div class="about-section">
-    
-    <div class="about-box">
-        <div class="about-text">
-            <h2>Baskin Robins</h2>
-            <p>
-                Baskin-Robbins Cotton Candy ice cream is a fan-favorite flavor that brings the nostalgic taste of classic carnival cotton candy into a creamy frozen treat. It features a swirl of pink and blue cotton candy-flavored ice cream, creating a fun, colorful, and sweet experience with every scoop.
-            </p>
-            
-            <button class="cta-button">Add to Cart</button>
-        </div>
-        <img src="{% static 'bsabot.png' %}" alt="Service Image" class="about-image">
-        
+  </section>
+<section class="heading-section">
+    <h3>Our Collection</h3>
+    <h2>Timeless designs that speak simplicity and sophistication</h2>
+
+  </section>
+
+
+<section class="hero-section">
+    <img src="{% static "resort.JPG"%}" alt="Tsabinz Resort Collection">
+    <div class="hero-text">
+      <h2>Resort Collection</h2>
+      <p>Relaxed, chic, and effortlessly for vacation, beach days, and sun-soaked getaways</p>
+      <a href="{% url 'store:product_list' %}?product_type=resort" class="hero-btn">Shop now</a>
     </div>
+  </section>
+  <section class="bg-image">
+    <video autoplay muted loop playsinline>
+      <source src="{% static 'Fur (1).mp4' %}" type="video/mp4" alt="Tsabinz Winter Collection">
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-text">
+      <h2>Our Winter Collection</h2>
+      <p>Winter is here Chic and cozy jackets that keep you warm</p>
+      <a href="{% url 'store:product_list' %}?product_type=winter" class="hero-btn">Shop now</a>
+    </div>
+  </section>
+
+
+    <section class="category-row">
+    <div class="category">
+      <span class="category-title">New Arrivals</span>
+      <div class="category-subtitles">
+        <a href="{% url 'store:category_products' 'women' %}?sort=newest" class="category-btn">Women</a>
+<a href="{% url 'store:category_products' 'men' %}?sort=newest" class="category-btn">Men</a>
+      </div>
+    </div>
+
+    <div class="category">
+      <span class="category-title">Best Sellers</span>
+      <div class="category-subtitles">
+        <a href="{% url 'store:category_products' 'women' %}?sort=best_selling" class="category-btn">Women</a>
+    <a href="{% url 'store:category_products' 'men' %}?sort=best_selling" class="category-btn">Men</a>
+      </div>
+    </div>
+
+    <div class="category">
+      <span class="category-title">Shirts</span>
+      <div class="category-subtitles">
+        <a href="{% url 'store:category_products' 'women' %}" class="category-btn">Women</a>
+    <a href="{% url 'store:category_products' 'men' %}" class="category-btn">Men</a>
+      </div>
+    </div>
+
+    <div class="category">
+      <span class="category-title">Tops</span>
+      <div class="category-subtitles">
+        <a href="{% url 'store:category_products' 'women'  %}" class="category-btn">Women</a>
+        <a href="{% url 'store:category_products' 'men'  %}" class="category-btn">Men</a>
+      </div>
+    </div>
+  </section>
+
+
+  <script>
+const video = document.getElementById('homepageVideo');
+const poster = document.getElementById('videoPoster');
+
+// Wait 2 seconds, then hide poster and show video
+setTimeout(() => {
+  poster.style.display = 'none';
+  video.style.display = 'block';
+}, 3000);
+</script>
+
+    <!-- Section 3: Image Left -->
     
-    
-    
-</div>
 
 
-
-
-<h6>Baskin </h6>
-<h5> Robbins</h5>
 
 {% endblock %}

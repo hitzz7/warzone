@@ -1,0 +1,312 @@
+{% extends './navbar.html' %}
+{% load static %}
+{% block title %}Checkout{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="checkout-wrapper">
+
+  <!-- LEFT: form -->
+  <div class="checkout-left">
+    <h1 class="checkout-title">Checkout</h1>
+    
+
+    <form id="checkoutForm" method="post" novalidate>
+      {% csrf_token %}
+      {# Hidden field to send delivery charge to backend #}
+      <input type="hidden" name="delivery_price" id="delivery_price" value="0.00">
+      <input type="hidden" name="applied_coupon" id="applied_coupon" value="">
+      <section class="section">
+        <h2 class="section-title">Shipping To</h2>
+        
+        <p class="muted">Please fill your shipping information.</p>
+
+        
+        <div class="row two-cols">
+          <h3>Contact Information</h3>
+          <div class="field">
+            <label for="{{ form.name.id_for_label }}">Full name *</label>
+            {{ form.name }}
+            {% if form.name.errors %}<div class="field-error">{{ form.name.errors }}</div>{% endif %}
+          </div>
+
+          <div class="field">
+            <label for="{{ form.email.id_for_label }}">Email *</label>
+            {{ form.email }}
+            {% if form.email.errors %}<div class="field-error">{{ form.email.errors }}</div>{% endif %}
+          </div>
+
+          <div class="field">
+            <label for="{{ form.phone.id_for_label }}">Phone *</label>
+            {{ form.phone }}
+            {% if form.phone.errors %}<div class="field-error">{{ form.phone.errors }}</div>{% endif %}
+          </div>
+
+          <h3>Shipping Address</h3>
+          <div class="field">
+            <label for="{{ form.city.id_for_label }}">City *</label>
+            {{ form.city }}
+            {% if form.city.errors %}<div class="field-error">{{ form.city.errors }}</div>{% endif %}
+          </div>
+
+          <div class="field">
+          <label for="{{ form.address.id_for_label }}">Address *</label>
+          {{ form.address }}
+          {% if form.address.errors %}<div class="field-error">{{ form.address.errors }}</div>{% endif %}
+        </div>
+
+        <!-- Landmark -->
+        <div class="field">
+          <label for="{{ form.landmark.id_for_label }}">Landmark (optional)</label>
+          {{ form.landmark }}
+          {% if form.landmark.errors %}<div class="field-error">{{ form.landmark.errors }}</div>{% endif %}
+        </div>
+        <div  class="place-order-wrapper" style="margin-top:12px;">
+          <button type="submit" id="placeOrderBtn" class="btn save-shipping">Place Order</button>
+        </div>
+        </div>
+
+        <!-- Phone + City -->
+        {% comment %} <div class="row two-cols">
+          <div class="field">
+            <label for="{{ form.phone.id_for_label }}">Phone *</label>
+            {{ form.phone }}
+            {% if form.phone.errors %}<div class="field-error">{{ form.phone.errors }}</div>{% endif %}
+          </div>
+
+          <div class="field">
+            <label for="{{ form.city.id_for_label }}">City *</label>
+            {{ form.city }}
+            {% if form.city.errors %}<div class="field-error">{{ form.city.errors }}</div>{% endif %}
+          </div>
+        </div> {% endcomment %}
+
+        <!-- Full address -->
+        
+
+        {% comment %} <!-- Place order --><button id="paypalBtn">Pay with PayPal</button> {% endcomment %}
+        
+      </section>
+    </form>
+  </div>
+
+  <!-- RIGHT: summary -->
+  <aside class="checkout-right">
+    <div class="summary-card">
+      <h3 class="summary-title">Order Summary</h3>
+
+      <div class="summary-line">
+        <span>Subtotal</span>
+        <span class="value">Rs {{ subtotal|floatformat:2 }}</span>
+      </div>
+
+      <div class="summary-line">
+        <span>Delivery Charge</span>
+        <span id="shippingValue" class="value">—</span>
+      </div>
+
+      <div class="summary-line">
+        <span>Discount</span>
+        <span id="discountValue" class="value">Rs 0.00</span>
+      </div>
+
+      <hr>
+
+      <div class="summary-line total">
+        <span>Estimated Total</span>
+        <span id="estimatedTotal" class="value strong">—</span>
+      </div>
+
+      <hr>
+      <div class="coupon-container">
+        <input type="text" id="coupon_code" placeholder="Enter coupon code">
+        <button type="button" onclick="applyCoupon()">Apply</button>
+      </div>
+      <hr>
+      <div class="bag-preview">
+        <h4>In Your Bag</h4>
+        <ul class="bag-items">
+          {% for it in items %}
+            <li class="bag-item">
+              {% with it.product.images.first as img %}
+                {% if img %}
+                  <img src="{{ img.image.url }}" alt="{{ it.product.title }}">
+                {% else %}
+                  <img src="{% static 'no-image.png' %}" alt="">
+                {% endif %}
+              {% endwith %}
+              <div class="meta">
+                <div class="title">{{ it.product.title }}</div>
+                <div class="meta-small">
+                  {% if it.variant.size %}{{ it.variant.size.name }}{% endif %}
+                  {% if it.variant.color %} | {{ it.variant.color.name }}{% endif %}
+                </div>
+                <!-- Coupon Section -->
+                 
+                  
+
+                <div class="qty-price">{{ it.qty }} × Rs {{ it.price }}</div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div style="margin-top:12px; text-align:center;">
+        <a href="" class="edit-link">Edit Cart</a>
+      </div>
+    </div>
+  </aside>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  const buttonWrapper = document.querySelector('.place-order-wrapper');
+  const checkoutWrapper = document.querySelector('.checkout-wrapper');
+
+  function moveButton() {
+    if (window.innerWidth <= 480) {
+      checkoutWrapper.appendChild(buttonWrapper); // move to bottom
+    } else {
+      const leftForm = document.querySelector('.checkout-left .section');
+      leftForm.appendChild(buttonWrapper); // move back to form
+    }
+  }
+
+  moveButton();
+  window.addEventListener('resize', moveButton);
+});
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const cityField = document.querySelector('[name="{{ form.city.html_name }}"]');
+  const shippingValueEl = document.getElementById('shippingValue');
+  const estimatedTotalEl = document.getElementById('estimatedTotal');
+  const deliveryPriceInput = document.getElementById('delivery_price');
+  const checkoutForm = document.getElementById('checkoutForm');
+  const discountValueEl = document.getElementById('discountValue');
+  const appliedCouponInput = document.getElementById('applied_coupon');
+  const couponInput = document.getElementById('coupon_code');
+
+  const subtotal = parseFloat('{{ subtotal|floatformat:2 }}') || 0.0;
+  let activeDiscount = 0; // 🟢 Track applied discount globally
+
+  // Initialize UI
+  estimatedTotalEl.textContent = 'Rs' + subtotal.toFixed(2);
+  shippingValueEl.textContent = '—';
+  deliveryPriceInput.value = (0).toFixed(2);
+
+  // 🟢 Helper: recalc totals
+  function updateDelivery(deliveryCharge) {
+    const total = subtotal + deliveryCharge - activeDiscount;
+    shippingValueEl.textContent = 'Rs' + deliveryCharge.toFixed(2);
+    estimatedTotalEl.textContent = 'Rs' + total.toFixed(2);
+    deliveryPriceInput.value = deliveryCharge.toFixed(2);
+  }
+
+  // 🟢 When city changes, fetch delivery charge
+  if (cityField) {
+    cityField.addEventListener('change', function () {
+      const cityId = this.value;
+      if (!cityId) {
+        shippingValueEl.textContent = '—';
+        estimatedTotalEl.textContent = 'Rs' + (subtotal - activeDiscount).toFixed(2);
+        deliveryPriceInput.value = (0).toFixed(2);
+        return;
+      }
+
+      fetch(`/get-delivery-charge/?city_id=${encodeURIComponent(cityId)}`)
+        .then(resp => {
+          if (!resp.ok) throw new Error('Network response was not ok');
+          return resp.json();
+        })
+        .then(data => {
+          const deliveryCharge = parseFloat(data.delivery_charge) || 0.0;
+          updateDelivery(deliveryCharge);
+        })
+        .catch(err => {
+          console.error('Failed to fetch delivery charge:', err);
+          shippingValueEl.textContent = '—';
+          estimatedTotalEl.textContent = 'Rs' + (subtotal - activeDiscount).toFixed(2);
+          deliveryPriceInput.value = (0).toFixed(2);
+        });
+    });
+  }
+
+  // 🟢 Basic validation before submit
+  checkoutForm.addEventListener('submit', function (e) {
+    const requiredFields = ['{{ form.name.html_name }}', '{{ form.email.html_name }}', '{{ form.phone.html_name }}', '{{ form.address.html_name }}', '{{ form.city.html_name }}'];
+    const missing = requiredFields.filter(name => {
+      const el = document.querySelector(`[name="${name}"]`);
+      return !el || !el.value.trim();
+    });
+
+    if (missing.length) {
+      e.preventDefault();
+      alert('Please complete required fields before placing order.');
+    }
+  });
+
+  // 🟢 Coupon logic
+  const applyCouponUrl = "{% url 'store:apply_coupon' %}";
+
+  window.applyCoupon = function () {
+    const code = couponInput.value.trim();
+    if (!code) {
+      alert("Please enter a coupon code.");
+      return;
+    }
+
+    fetch(`${applyCouponUrl}?code=${encodeURIComponent(code)}&subtotal=${subtotal}`)
+      .then(response => response.json())
+      .then(data => {
+        const deliveryCharge = parseFloat(
+          (shippingValueEl.textContent || "Rs0").replace("Rs", "")
+        ) || 0;
+
+        if (data.valid) {
+          const discount = parseFloat(data.discount) || 0;
+          activeDiscount = discount; // 🟢 store globally
+
+          const total = subtotal + deliveryCharge - discount;
+          discountValueEl.textContent = `-Rs${discount.toFixed(2)}`;
+          estimatedTotalEl.textContent = `Rs${total.toFixed(2)}`;
+          appliedCouponInput.value = code;
+
+          alert("✅ Coupon applied successfully!");
+        } else {
+          activeDiscount = 0; // 🟢 reset if invalid
+          discountValueEl.textContent = "Rs0.00";
+          const total = subtotal + deliveryCharge;
+          estimatedTotalEl.textContent = `Rs${total.toFixed(2)}`;
+          appliedCouponInput.value = "";
+          alert(data.message || "Coupon not available or expired.");
+        }
+      })
+      .catch(() => {
+        alert("Failed to apply coupon. Please try again.");
+      });
+  };
+});
+</script>
+
+{% comment %} <script>
+document.getElementById('paypalBtn').addEventListener('click', function() {
+    const orderId = "{{ order.id }}";  // Django context with order
+    fetch(`/create-paypal-order/${orderId}/`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.approval_url) {
+            window.location.href = data.approval_url; // redirect to PayPal
+        } else {
+            alert('Failed to initiate PayPal payment.');
+        }
+      })
+});
+</script> {% endcomment %}
+
+{% endblock %}

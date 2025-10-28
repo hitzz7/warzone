@@ -2,89 +2,336 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baskin Robbins</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <link rel="canonical" href="https://tsabinz.com/">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Tsabinz | Clothing Brand in Kathmandu, Nepal | Fashion for Men & Women</title>
+    <meta name="description" content="Tsabinz is a premium clothing brand based in Kathmandu, Nepal, offering stylish and high-quality fashion for men and women. Shop online for the latest tops, shirts, hoodies, and more." />
+    <link rel="icon" type="image/png" href="{% static 'tsabinlogo-.png' %}" />
+    <meta name="keywords" content="clothing brand Nepal, Redefining Street FashionKathmandu, Tsabinz,Tsabinz SwimWear, Nepali clothing store, Designed & Proudly MadeinNepal , men's clothing Nepal, women's fashion Kathmandu" />
+    <meta name="author" content="Tsabinz Official, Kathmandu, Nepal" />
+    <meta name="robots" content="index, follow" />
 
+    <meta property="og:title" content="Tsabinz | Clothing Brand in Kathmandu, Nepal" />
+  <meta property="og:description" content="Discover trendy clothing in Kathmandu from Tsabinz — premium fashion made in Nepal." />
+  <meta property="og:image" content="{% static 'tsabinlogo-.png' %}" />
+  <meta property="og:url" content="https://tsabinz.com" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tsabinz | Clothing Brand in Kathmandu, Nepal" />
+  <meta name="twitter:description" content="Shop high-quality Nepali fashion — men's & women's clothing designed in Kathmandu by Tsabinz." />
+  <meta name="twitter:image" content="{% static 'tsabinlogo-.png' %}" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% comment %} <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "url": "https://www.yoursite.com",
+  "logo": "https://www.yoursite.com/static/images/logo.png"
+}
+</script> {% endcomment %}
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/product_detail.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/product.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
 </head>
 <body>
+
+    <!-- Discount Banner -->
     <div class="discount-banner">
-        <div class="banner-message">Welcome to Baskin Robbins</div>
-        <div class="banner-message">15 percent discount on all products</div>
-        
-        <div class="banner-message">Your Summer is here</div>
+        <div class="banner-message">Welcome to tsabinz </div>
+        <div class="banner-message">New Winter Collection</div>
+        <div class="banner-message">10% discount on all products</div>
     </div>
+
+    <!-- Header -->
     <header class="header">
         
-        <nav>
-            <ul class="navbar" id="navbar">
-                <li><a href="{% url 'store:product' %}">Icecream</a></li>
-                
-                <li><a href="">Cafes</a></li>
-                <li><a href="">About</a></li>
-                <li><a href="">Contact</a></li>
-                
-            </ul>
-        </nav>
-        <div class="logo">
-            <a href="{% url 'store:home'%}">
-                <img src="{% static 'logo.png'%}">
+        
+        <div class="nav-wrap">
+  <nav>
+    <ul class="navbar" id="navbar">
+      <li class="dropdown">
+          <a href="{% url 'store:category_products' 'all' %}?sort=newest" class="nav-link">New</a>
+
+          <!-- small dropdown for 'New' with Men/Women links -->
+          <div class="mega-dropdown small">
+            <div class="mega-content">
+              <div class="col">
+                <h4 style="margin-top:0; margin-bottom:6px;">Shop</h4>
+                <a href="{% url 'store:category_products' 'men' %}">Men</a>
+                <a href="{% url 'store:category_products' 'women' %}">Women</a>
+              </div>
+               <div class="col">
+                <h4>Collection</h4>
+                <a href="{% url 'store:category_products' 'men' %}">Swimwear</a>
+                <a href="{% url 'store:category_products' 'women' %}">Winter Collection</a>
+              </div>
+              <div class="col">
+              <h4>women</h4>
+
+              {% for cat in top_categories %}
+                {% if cat.slug == 'women' %}
+                  {% for sub in cat.get_children %}
+                    {% if sub.is_active %}
+                      <a href="{{ sub.get_absolute_url }}">{{ sub.name }}</a>
+                    {% endif %}
+                  {% empty %}
+                    <p>No categories</p>
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+
+            </div>
+            <div class="col">
+              <h4>men</h4>
+
+              {% for cat in top_categories %}
+                {% if cat.slug == 'men' %}
+                  {% for sub in cat.get_children %}
+                    {% if sub.is_active %}
+                      <a href="{{ sub.get_absolute_url }}">{{ sub.name }}</a>
+                    {% endif %}
+                  {% empty %}
+                    <p>No categories</p>
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+
+            </div>
+            </div>
+          </div>
+        </li>
+      <li class="dropdown">
+        <a href="{% url 'store:category_products' 'men' %}">Men</a>
+
+        <!-- Mega dropdown -->
+        <div class="mega-dropdown">
+            <div class="mega-content">
+              <!-- Put columns, lists, images, or whatever here -->
+              <div class="col">
+              <h4>Clothing</h4>
+
+              {% for cat in top_categories %}
+                {% if cat.slug == 'men' %}
+                  {% for sub in cat.get_children %}
+                    {% if sub.is_active %}
+                      <a href="{{ sub.get_absolute_url }}">{{ sub.name }}</a>
+                    {% endif %}
+                  {% empty %}
+                    <p>No categories</p>
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+
+            </div>
+              
+              <div class="col">
+                <h4>Shop by Type</h4>
+                <a href="#">New Arrivals</a>
+                <a href="#">Best Sellers</a>
+              </div>
+              <!-- add more cols as needed -->
+            </div>
+          </div>
+          <!-- /mega-dropdown -->
+
+        </li>
+
+        <li class="dropdown">
+          <a href="{% url 'store:category_products' 'women' %}">Women</a>
+          <div class="mega-dropdown">
+            <div class="mega-content">
+              <!-- Put columns, lists, images, or whatever here -->
+              <div class="col">
+              <h4>Clothing</h4>
+
+              {% for cat in top_categories %}
+                {% if cat.slug == 'women' %}
+                  {% for sub in cat.get_children %}
+                    {% if sub.is_active %}
+                      <a href="{{ sub.get_absolute_url }}">{{ sub.name }}</a>
+                    {% endif %}
+                  {% empty %}
+                    <p>No categories</p>
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+
+            </div>
+              
+              <div class="col">
+                <h4>Shop by Type</h4>
+                <a href="#">New Arrivals</a>
+                <a href="#">Best Sellers</a>
+              </div>
+              <!-- add more cols as needed -->
+            </div>
+          </div>
+        </li>
+
+
+        <li><a href="{% url 'store:home' %}">Home</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <nav id="mobileNav" class="mobile-nav" aria-hidden="true">
+    <ul>
+      <li><a href="{% url 'store:category_products' 'men' %}">Men</a></li>
+      <li><a href="{% url 'store:category_products' 'women' %}">Women</a></li>
+      <li><a href="{% url 'store:category_products' 'new' %}">New</a></li>
+      <li><a href="/">Home</a></li>
+      <!-- optionally add sub-links, search, or cart link -->
+    </ul>
+  </nav>
+  
+    <div class="logo">
+            <a href="{% url 'store:home' %}">
+                <img src="{% static 'tsabinlogo-.png' %}" alt="Logo" >
             </a>
+        </div>
+        <div class="icons">
             
+            <a id="openSearchBtn" href="#"><i class="fas fa-search"></i></a>
+            <a href="{% url "order:order_lookup"%}"><i class="fas fa-user"></i></a>
+            
+            <a id="openCartBtn" href="#" class="cart-icon">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cartCount" class="cart-count">{{ cart_item_count }}</span>
+            </a>
+              
+            </i>
+              
+            
+            </a>
         </div>
 
-        <div class="icons">
-            <a href="#"><i class="fa fa-search"></i></a>
-            <a href="#"><i class="fa fa-shopping-basket"></i></a>
-            <a href="#"><i class="fa fa-heart"></i></a>
-        </div>
+        <button id="hamburgerBtn"
+            class="hamburger"
+            aria-label="Toggle navigation"
+            aria-expanded="false"
+            aria-controls="mobileNav">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
         
-        <div class="hamburger" id="hamburger" >
-            <div></div>
-            <div></div>
-            <div></div>
+
+
+        {% comment %} <div class="icons">
+            
+            <a href="#" id="menuBtn"><i class="fas fa-bars"></i></a>
         </div>
+        <div class="drawer" id="drawer">
+            <ul>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                
+            </ul>
+        </div>
+
+        <div class="overlay1" id="overlay"></div>
+
+        <div class="hamburger" id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+
+        </div> {% endcomment %}
     </header>
+    <!-- Cart Button (place where appropriate, e.g., header) -->
+
+
+<!-- Cart Drawer -->
+<div id="cartDrawer" class="cart-drawer" aria-hidden="true">
+  <div class="cart-drawer__content">
+    <button id="closeCartBtn" class="cart-drawer__close">✕</button>
+    <h2 class="cart-drawer__title">Shopping Bag</h2>
+
+    <div id="cartItems" class="cart-items">
+      <!-- items injected here by JS -->
+      <div class="cart-empty">Loading...</div>
+    </div>
+
+    <div class="cart-drawer__footer">
+      <div class="cart-subtotal">
+        <span>Subtotal (<span id="cartTotalItems">0</span> items)</span>
+        <span id="cartSubtotal">Rs 0.00</span>
+      </div>
+      <div class="cart-actions">
+        <a href="{% url 'order:checkout' %}" class="btn btn-primary">Checkout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="searchDrawer" class="search-drawer" aria-hidden="true">
+  <div class="search-drawer__content">
+    <button id="closeSearchBtn" class="search-drawer__close">✕</button>
+    <h2 class="search-drawer__title">Search</h2>
+
+    <div class="search-drawer__body">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Type to search..."
+        class="search-input"
+      />
+      <div id="searchResults" class="search-results">
+        <div class="search-empty">Start typing to search...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+    <!-- Main Content -->
     <main>
         {% block content %}
-        <!-- Page-specific content goes here -->
+        <!-- Page-specific content -->
         {% endblock %}
     </main>
 
-    
-    
-    <footer class="footer">
+    <!-- Footer -->
+    {% comment %} <footer class="footer">
         <div class="row">
-            <!-- Logo Section -->
             <div class="col">
-                <img src="{% static 'logo.png' %}" alt="Itronz Logo" class="footer-logo">
-                <p>Is here for your happiness</p>
+                <img src="{% static 'tsabinlogo-.png' %}" alt="Logo" class="footer-logo">
+                <p>Interior Decor Studio</p>
             </div>
-            
-            <!-- Contact Information -->
             <div class="col">
                 <h4>Office<div class="underline"><span></span></div></h4>
-                <p>Phone: +977-9812345678</p>
-                <p>Email: info@itronz.net</p>
-                <p>Kathmandu, Nepal</p>
+                <p>Phone:9818326491</p>
+                <p>Email: website@hitzz.co</p>
+                <p>Lalitpur, Nepal</p>
             </div>
             <div class="col">
-                <h4>links<div class="underline"><span></span></div></h4>
-                <p href="">home</p>
-                <p href="">Icecreams</p>
-                <p href="">Cafes</p>
-                <p href="">about</p>
-                
+                <h4>Links<div class="underline"><span></span></div></h4>
+                <p><a href="#">Home</a></p>
+                <p><a href="#">Signs</a></p>
+                <p><a href="#">Services</a></p>
+                <p><a href="#">About</a></p>
             </div>
             <div class="col">
-                <h4>NewsLetter<div class="underline"><span></span></div></h4>
+                <h4>Newsletter<div class="underline"><span></span></div></h4>
                 <form>
-                    <i class ="far fa-envelope"></i>
-                    <input type="email" placeholder="Enter email id" required>
+                    <i class="far fa-envelope"></i>
+                    <input type="email" placeholder="Enter email id" required />
                     <button type="submit"><i class="fas fa-arrow-right"></i></button>
                 </form>
                 <div class="social-icons">
@@ -94,143 +341,593 @@
                     <i class="fab fa-pinterest"></i>
                 </div>
             </div>
-
-            
-            
-            
-            
-            <!-- Location and Map -->
-            
-            
-            <!-- Quick Links -->
-            
-            
         </div>
+        <hr />
+        <p class="copyright">© Tsabinz Brand</p>
         
-        <hr>
-        <p class="copyright">Baskin.Robbins</p>
-        <div class="footer-text">
-            <h6>Webiste Crafted By</h6>
-            <h5>Hitzz</h5>
+    </footer> {% endcomment %}
+
+    <footer class="site-footer" role="contentinfo">
+       <div class="footer-inner">
+
+    <!-- Column 1 -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="link-list">
+
+        <li><a href="{% url 'order:order_lookup' %}">Track Order</a></li>
+        <li><a href="#">Search</a></li>
+        <li><a href="#">Cart</a></li>
+        
+      </ul>
+    </div>
+
+    <!-- Column 2 -->
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul class="link-list">
+        <li><a href="{% url 'store:category_products' 'men' %}">Men</a></li>
+        <li><a href="{% url 'store:category_products' 'women' %}">Women</a></li>
+        <li><a href="{% url 'store:category_products' 'all' %}?sort=newest">New</a></li>
+        
+      </ul>
+    </div>
+
+    <!-- Column 3 -->
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul class="link-list">
+        <li><a href="{% url 'store:product_list' %}?product_type=winter">Winter Collection</a></li>
+        <li><a href="{% url 'store:product_list' %}?product_type=swimwear">Swim wear Collection</a></li>
+        <li><a href="{% url 'store:product_list' %}?product_type=resort">Resort Collection</a></li>
+        <li><a href="#">Tsabinz Portfolio</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 4: Newsletter -->
+    <div class="footer-col newsletter">
+      <h4>Sign Up &amp; Save 10%</h4>
+      <p>Subscribe for news on our latest arrivals, exclusive promotions and events.</p>
+      <form id="emailForm" >
+          {% csrf_token %}
+          <i class ="far fa-envelope"></i>
+          <input type="email" name="email" placeholder="Enter email id" required>
+          <button type="submit"><i class="fas fa-arrow-right"></i></button>
+      </form>
+      <div id="emailMessage"></div>
+      
+      <div class="social-icons">
+                    <!-- Facebook -->
+          <a href="https://www.facebook.com/tsabinz.official/" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-facebook-f"></i>
+          </a>
+
+          <!-- Instagram -->
+          <a href="https://www.instagram.com/tsabinz.official/?hl=en" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-instagram"></i>
+          </a>
+
+          <!-- Twitter -->
+          <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-twitter"></i>
+          </a>
+
+          <!-- WhatsApp -->
+          <a href="https://wa.me/9779818326491" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-whatsapp"></i>
+          </a>
+
+                </div>
+    </div>
+
+  </div>
+
+<!-- bottom area -->
+<div class="footer-bottom">
+  <img src="{% static 'tsabinlogo-.png' %}" alt="Precise Security Logo" style="height: 40px;">
+<div class="brand">Tsabinz</div>
+<div class="footer-links">
+<a href="#"></a>
+<span>|</span>
+<a href="#">Privacy Policy</a>
+<a href="#">Interest Based Ads</a>
+<a href="#">Do Not Sell or Share My Personal Information</a>
+<a href="#">Terms &amp; Conditions</a>
+<a>tsabinzofficial@gmail.com</a>
+
+</div>
+
+
+<div class="location" aria-hidden="true">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 6.08 7 13 7 13s7-6.92 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.2"/></svg>
+Nepal,Kathmandu
+</div>
+</div>
+<div class="footer-hitzz">
+  <div class="hitzz">crafted by hitzz</div>
+</div>
+
+
+</footer>
+<script>
+const form = document.getElementById('emailForm');
+const messageDiv = document.getElementById('emailMessage');
+
+// Get CSRF token from the hidden input Django provides
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault(); // prevent page reload
+    const email = form.email.value;
+
+    fetch("{% url 'order:save_email' %}", {  // Use your actual URL name
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrftoken
+        },
+        body: new URLSearchParams({ email: email })
+    })
+    .then(res => res.json())
+    .then(data => {
+        messageDiv.textContent = data.message;  // Show success or exists message
+        if(data.status === 'success') form.reset();
+    })
+    .catch(err => {
+        console.error(err);
+        messageDiv.textContent = "Failed to save email.";
+    });
+});
+
+</script>
+
+    <script>
+  const menuBtn = document.getElementById("menuBtn");
+  const drawer = document.getElementById("drawer");
+  const overlay = document.getElementById("overlay");
+
+  // Open drawer
+  menuBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    drawer.classList.add("open");
+    overlay.classList.add("active");
+  });
+
+  // Close drawer when clicking outside
+  overlay.addEventListener("click", function () {
+    drawer.classList.remove("open");
+    overlay.classList.remove("active");
+  });
+</script>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const messages = document.querySelectorAll('.banner-message');
+            let currentIndex = 0;
+            messages.forEach(msg => msg.style.display = 'none');
+            messages[currentIndex].style.display = 'block';
+            setInterval(() => {
+                messages[currentIndex].style.display = 'none';
+                currentIndex = (currentIndex + 1) % messages.length;
+                messages[currentIndex].style.display = 'block';
+            }, 5000);
+        });
+
+        const hamburger = document.getElementById('hamburger');
+        const navbar = document.getElementById('navbar');
+
+        hamburger.addEventListener('click', function () {
+            navbar.classList.toggle('show');
+            this.classList.toggle('active');
+        });
+    </script>
+    <script>
+const header = document.querySelector(".header");
+const headingSections = document.querySelectorAll(".heading-section");
+
+// Simple check for homepage (adjust if your homepage URL is different)
+const isHomePage = window.location.pathname === "/";
+
+// Function to add shadow on scroll
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 0) {
+    header.classList.add("scrolled");
+  } else {
+    header.classList.remove("scrolled");
+  }
+});
+
+if (isHomePage) {
+  // Homepage behavior: dark only in certain sections
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const inView = entries.some(entry => entry.isIntersecting);
+      if (inView) {
+        header.classList.add("dark");
+      } else {
+        header.classList.remove("dark");
+      }
+    },
+    { threshold: 0.3 }
+  );
+
+  headingSections.forEach(section => observer.observe(section));
+} else {
+  // Other pages: always dark
+  header.classList.add("dark");
+}
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    /* CSRF helper */
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    /* Elements */
+    const openCartBtn = document.getElementById('openCartBtn');
+    const closeCartBtn = document.getElementById('closeCartBtn');
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartSubtotalEl = document.getElementById('cartSubtotal');
+    const cartTotalItemsEl = document.getElementById('cartTotalItems');
+    const cartCountEl = document.getElementById('cartCount');
+
+    if (!openCartBtn || !cartDrawer) return; // safety check
+
+    /* Open/Close functions */
+    function openCart() {
+        cartDrawer.classList.add('open');
+        cartDrawer.setAttribute('aria-hidden', 'false');
+        loadCart();
+    }
+    function closeCart() {
+        cartDrawer.classList.remove('open');
+        cartDrawer.setAttribute('aria-hidden', 'true');
+    }
+
+    /* Event listeners */
+    openCartBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        openCart();
+    });
+
+    if (closeCartBtn) {
+        closeCartBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            closeCart();
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeCart();
+    });
+
+    /* Load cart from server */
+    function loadCart() {
+        fetch("{% url 'store:cart_json' %}")
+            .then(res => res.json())
+            .then(data => renderCart(data))
+            .catch(err => {
+                cartItemsEl.innerHTML = '<div class="cart-empty">Failed to load cart.</div>';
+            });
+    }
+
+    /* Render cart */
+    function renderCart(data) {
+        cartItemsEl.innerHTML = '';
+        if (!data.items || data.items.length === 0) {
+            cartItemsEl.innerHTML = '<div class="cart-empty">Your bag is empty.</div>';
+            cartSubtotalEl.textContent = 'Rs 0.00';
+            cartTotalItemsEl.textContent = '0';
+            cartCountEl.textContent = '0';
+            cartCountEl.style.display = 'none';
+            return;
+        }
+
+        data.items.forEach(item => {
+            const itemEl = document.createElement('div');
+            itemEl.className = 'cart-item';
+            itemEl.innerHTML = `
+                <img class="cart-item__img" src="${item.image || '/static/no-image.png'}" alt="${item.title}">
+                <div class="cart-item__meta">
+                    <div class="cart-item__title">${item.title}</div>
+                    <small>${item.color ? item.color + ' | ' : ''}${item.size ? item.size : ''}</small>
+                    <div class="qty-controls">
+                        <button class="qty-decrease" data-vid="${item.variant_id}">−</button>
+                        <input class="qty" data-vid="${item.variant_id}" value="${item.qty}" type="number" min="1">
+                        <button class="qty-increase" data-vid="${item.variant_id}">+</button>
+                        <div style="width:10px"></div>
+                        <div class="cart-item__price">Rs${item.line_total}</div>
+                    </div>
+                </div>
+                <button class="cart-item__remove" data-vid="${item.variant_id}">Remove</button>
+            `;
+            cartItemsEl.appendChild(itemEl);
+        });
+
+        cartSubtotalEl.textContent = 'Rs ' + data.subtotal;
+        cartTotalItemsEl.textContent = data.total_items;
+        cartCountEl.textContent = data.total_items;
+
+        if (parseInt(data.total_items) === 0) {
+        cartCountEl.style.display = 'none';
+        } else {
+            cartCountEl.style.display = 'inline-block'; // or 'flex' depending on your CSS
+        }
+
+        attachQtyListeners();
+    }
+    if (cartCountEl && parseInt(cartCountEl.textContent) === 0) {
+    cartCountEl.style.display = 'none';
+    }
+
+    /* Quantity and remove listeners */
+    function attachQtyListeners() {
+        document.querySelectorAll('.qty-decrease').forEach(btn => {
+            btn.onclick = () => {
+                const vid = btn.dataset.vid;
+                const input = document.querySelector(`input.qty[data-vid="${vid}"]`);
+                let val = parseInt(input.value, 10) || 1;
+                if (val > 1) updateCartQty(vid, val - 1);
+            };
+        });
+
+        document.querySelectorAll('.qty-increase').forEach(btn => {
+            btn.onclick = () => {
+                const vid = btn.dataset.vid;
+                const input = document.querySelector(`input.qty[data-vid="${vid}"]`);
+                let val = parseInt(input.value, 10) || 1;
+                updateCartQty(vid, val + 1);
+            };
+        });
+
+        document.querySelectorAll('input.qty').forEach(input => {
+            input.onchange = () => {
+                const vid = input.dataset.vid;
+                let val = parseInt(input.value, 10);
+                if (!val || val < 1) val = 1;
+                updateCartQty(vid, val);
+            };
+        });
+
+        document.querySelectorAll('.cart-item__remove').forEach(btn => {
+            btn.onclick = () => {
+                const vid = btn.dataset.vid;
+                removeCartItem(vid);
+            };
+        });
+    }
+
+    /* Update cart */
+    function updateCartQty(variant_id, quantity) {
+        fetch("{% url 'store:cart_update' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrftoken,
+                "Accept": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            body: `variant_id=${encodeURIComponent(variant_id)}&quantity=${encodeURIComponent(quantity)}`
+        })
+        .then(r => r.json())
+        .then(data => renderCart(data))
+        .catch(err => console.error(err));
+    }
+
+    /* Remove item */
+    function removeCartItem(variant_id) {
+        fetch("{% url 'store:cart_remove' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrftoken,
+                "Accept": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            body: `variant_id=${encodeURIComponent(variant_id)}`
+        })
+        .then(r => r.json())
+        .then(data => renderCart(data))
+        .catch(err => console.error(err));
+    }
+
+    /* Add to cart */
+    window.addToCart = function(variant_id, qty=1) {
+        fetch("{% url 'store:cart_add' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrftoken,
+                "Accept": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            body: `variant_id=${encodeURIComponent(variant_id)}&quantity=${encodeURIComponent(qty)}`
+        })
+        .then(r => r.json())
+        .then(data => openCart())
+        .catch(err => console.error(err));
+    }
+});
+</script>
+
+<script>
+(function() {
+  // small delay before closing (ms) to make moving pointer tolerable
+  const CLOSE_DELAY = 200;
+
+  // find all dropdown <li> elements that have a .mega-dropdown child
+  document.querySelectorAll('.navbar li').forEach(li => {
+    const mega = li.querySelector('.mega-dropdown');
+    if (!mega) return; // skip items without mega dropdown
+
+    let closeTimer = null;
+
+    // helper functions
+    function open() {
+      clearTimeout(closeTimer);
+      li.classList.add('open');
+      // also mark the mega itself open (helps if you hover the mega directly)
+      mega.classList.add('open');
+    }
+    function scheduleClose() {
+      clearTimeout(closeTimer);
+      closeTimer = setTimeout(() => {
+        li.classList.remove('open');
+        mega.classList.remove('open');
+      }, CLOSE_DELAY);
+    }
+
+    // when mouse enters li (including link), open immediately
+    li.addEventListener('mouseenter', open);
+    // when mouse leaves li, schedule close
+    li.addEventListener('mouseleave', scheduleClose);
+
+    // also listen on the mega area itself so entering it keeps it open
+    mega.addEventListener('mouseenter', open);
+    mega.addEventListener('mouseleave', scheduleClose);
+
+    // optional: support keyboard focus (accessibility)
+    const link = li.querySelector('a');
+    if (link) {
+      link.addEventListener('focus', open);
+      link.addEventListener('blur', scheduleClose);
+    }
+  });
+})();
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const btn = document.getElementById('hamburgerBtn');
+  const mobileNav = document.getElementById('mobileNav');
+
+  if (!btn || !mobileNav) return;
+
+  const toggle = () => {
+    const isOpen = btn.classList.toggle('open');
+    mobileNav.classList.toggle('open', isOpen);
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    mobileNav.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+  };
+
+  btn.addEventListener('click', toggle);
+
+  // Close mobile nav when clicking outside it
+  document.addEventListener('click', function (e) {
+    if (!mobileNav.classList.contains('open')) return;
+    // if click is inside nav or on button, ignore
+    if (mobileNav.contains(e.target) || btn.contains(e.target)) return;
+    // otherwise close
+    btn.classList.remove('open');
+    mobileNav.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    mobileNav.setAttribute('aria-hidden', 'true');
+  });
+
+  // Optional: close with Escape
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
+      btn.classList.remove('open');
+      mobileNav.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      mobileNav.setAttribute('aria-hidden', 'true');
+    }
+  });
+});
+</script>
+
+<script>
+/* Elements */
+const openSearchBtn = document.getElementById('openSearchBtn');
+const closeSearchBtn = document.getElementById('closeSearchBtn');
+const searchDrawer = document.getElementById('searchDrawer');
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+
+/* Open/Close functions */
+function openSearch() {
+  searchDrawer.classList.add('open');
+  searchDrawer.setAttribute('aria-hidden', 'false');
+  searchInput.focus();
+}
+
+function closeSearch() {
+  searchDrawer.classList.remove('open');
+  searchDrawer.setAttribute('aria-hidden', 'true');
+}
+
+/* Event listeners */
+openSearchBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  openSearch();
+});
+
+closeSearchBtn.addEventListener('click', closeSearch);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeSearch();
+});
+
+/* Search function */
+let searchTimeout;
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchTimeout);
+  const query = searchInput.value.trim();
+  if (!query) {
+    searchResults.innerHTML = '<div class="search-empty">Start typing to search...</div>';
+    return;
+  }
+
+  // debounce - waits 300ms after typing stops
+  searchTimeout = setTimeout(() => {
+    fetch("{% url 'store:search_json' %}?q=" + encodeURIComponent(query))
+      .then(res => res.json())
+      .then(data => renderSearchResults(data))
+      .catch(err => {
+        console.error('Search error:', err);
+        searchResults.innerHTML = '<div class="search-empty">Failed to load results.</div>';
+      });
+  }, 300);
+});
+
+/* Render search results */
+function renderSearchResults(data) {
+  searchResults.innerHTML = '';
+  if (!data.items || data.items.length === 0) {
+    searchResults.innerHTML = '<div class="search-empty">No results found.</div>';
+    return;
+  }
+
+  data.items.forEach(item => {
+    const resultEl = document.createElement('div');
+    resultEl.className = 'search-result';
+    resultEl.innerHTML = `
+      <a href="${item.url}">
+        <img src="${item.image || '/static/no-image.png'}" alt="${item.title}" class="search-result__img">
+        <div class="search-result__info">
+          <span class="search-result__title">${item.title}</span>
+          ${item.price ? `<small class="search-result__price">$${item.price}</small>` : ''}
         </div>
+      </a>
+    `;
+    searchResults.appendChild(resultEl);
+  });
+}
+</script>
 
-    </footer>
-    
-    
-
-    
-    
-    
-    
 
 </body>
-
-
-
-</style>
-<script>
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        const messages = document.querySelectorAll('.banner-message');
-        let currentIndex = 0;
-
-        function showNextMessage() {
-            messages[currentIndex].style.display = 'none';
-            currentIndex = (currentIndex + 1) % messages.length;
-            messages[currentIndex].style.display = 'block';
-        }
-
-        messages[currentIndex].style.display = 'block';
-        setInterval(showNextMessage, 8000); // Match the duration with the CSS animation
-    });
-    document.getElementById('navbarDropdown').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent default dropdown behavior
-        document.getElementById('drawer').classList.toggle('open');
-        document.getElementById('overlay').style.display = 'block'; // Show overlay
-    });
-    
-</script>
-<script>
-    const header = document.querySelector('.header');
-
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 0) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-    document.addEventListener("DOMContentLoaded", () => {
-        const body = document.body;
-        const header = document.querySelector('header');
-        
-        let lastScroll = 0;
-        
-        window.addEventListener("scroll", () => {
-            const currentScroll = window.pageYOffset;
-    
-            if (currentScroll <= 0) {
-                body.classList.remove("scroll-up");
-            } else if (currentScroll > lastScroll && !body.classList.contains("scroll-down")) {
-                if (currentScroll > header.offsetHeight) {
-                    body.classList.remove("scroll-up");
-                    body.classList.add("scroll-down");
-                }
-            } else if (currentScroll < lastScroll && body.classList.contains("scroll-down")) {
-                body.classList.remove("scroll-down");
-                body.classList.add("scroll-up");
-            }
-    
-            lastScroll = currentScroll;
-        });
-    });
-    
-</script>
-<script>
-    const productsGrid = document.querySelector('.products-grid');
-    let isTouching = false;
-    let startX, scrollLeft;
-
-    productsGrid.addEventListener('touchstart', (e) => {
-        isTouching = true;
-        startX = e.touches[0].pageX - productsGrid.offsetLeft;
-        scrollLeft = productsGrid.scrollLeft;
-    });
-
-    productsGrid.addEventListener('touchend', () => {
-        isTouching = false;
-    });
-
-    productsGrid.addEventListener('touchmove', (e) => {
-        if (!isTouching) return;
-        e.preventDefault();
-        const x = e.touches[0].pageX - productsGrid.offsetLeft;
-        const walk = (x - startX) * 3; // Scroll speed
-        productsGrid.scrollLeft = scrollLeft - walk;
-    });
-    
-    const hamburger = document.getElementById('hamburger');
-    const navbar = document.getElementById('navbar');
-    const body = document.body;
-
-    hamburger.addEventListener('click', function () {
-        navbar.classList.toggle('show');
-        hamburger.classList.toggle('active');
-
-        // Toggle scrolling
-        if (navbar.classList.contains('show')) {
-            header.style.backgroundColor = 'rgba(255, 248, 231, 0.5)';   // Change header color (example: light gray)
-        } else {
-            header.style.backgroundColor = ''; // Reset header color
-        }
-        
-        
-    }); 
-
-
-    // Close navbar when clicking outside
-   
-</script>
-
-
 </html>

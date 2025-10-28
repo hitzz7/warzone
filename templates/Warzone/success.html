@@ -1,8 +1,247 @@
 {% extends './navbar.html' %}
-{% block title %}Success{% endblock %}
+{% load static %}
+{% block title %}Order Success{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/order_success.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="success-message">
-    <h1>Thank you for reaching out!</h1>
-    <p>We will get back to you as soon as possible.</p>
+<style>
+  /* Order success — modern clean card */
+:root{
+  --bg:#f8f8f8;
+  --card:#ffffff;
+  --muted:#777;
+  --accent:#111;
+  --radius:12px;
+}
+
+body { background: var(--bg); }
+
+/* Wrapper */
+.os-wrapper {
+  max-width: 1100px;
+  margin: 36px auto;
+  padding: 0 16px;
+}
+
+/* Card */
+.os-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 26px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+}
+
+/* Hero */
+.os-hero {
+  display:flex;
+  justify-content:space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+.os-hero-left h1 { margin:0 0 6px; font-size:24px; }
+.os-hero-left .muted { color:var(--muted); margin:0; font-size:14px; }
+
+.order-badge {
+  background:#fafafa;
+  padding:10px 14px;
+  border-radius:8px;
+  text-align:center;
+  border:1px solid #f0f0f0;
+}
+.badge-label { font-size:12px; color:var(--muted); }
+.badge-id { font-weight:700; font-size:16px; margin-top:6px; }
+
+/* grid */
+.os-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 22px;
+  align-items: start;
+}
+
+/* Items area */
+.os-items h2 { margin: 0 0 12px; font-size:18px; }
+.items-table {
+  width:100%;
+  border-collapse: collapse;
+  background: transparent;
+}
+.items-table thead th {
+  text-align: left;
+  font-weight: 600;
+  font-size:13px;
+  color:#333;
+  padding: 12px 8px;
+  border-bottom: 1px solid #eee;
+}
+.items-table tbody td {
+  padding: 12px 8px;
+  vertical-align: middle;
+  border-bottom: 1px solid #fafafa;
+}
+.item-cell {
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.item-cell img {
+  width:64px;
+  height:64px;
+  object-fit:cover;
+  border-radius:8px;
+  border:1px solid #eee;
+}
+.item-title { font-weight:600; font-size:15px; }
+
+/* centers and right alignment helpers */
+.center { text-align:center; }
+.right { text-align:right; }
+.small { font-size:13px; color:var(--muted); }
+
+/* Summary (right column) */
+.os-summary .box {
+  background:#fff;
+  border-radius:8px;
+  padding:14px;
+  border:1px solid #fafafa;
+  margin-bottom:12px;
+}
+.totals .tot-row {
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  align-items:center;
+  color:#222;
+}
+.totals .total { font-weight:700; border-top:1px solid #eee; margin-top:8px; padding-top:12px; }
+.total-val { font-size:18px; color:var(--accent); font-weight:700; }
+
+/* actions */
+.actions { display:flex; flex-direction:column; gap:10px; }
+.btn { display:inline-block; text-decoration:none; padding:10px 14px; border-radius:8px; text-align:center; }
+.btn.primary { background:var(--accent); color:#fff; }
+.btn.ghost { background:transparent; border:1px solid #eee; color:var(--accent); }
+.btn.small-link { background:transparent; color:var(--muted); text-decoration:underline; font-size:13px; border:none; padding:0; }
+
+/* footer */
+.os-footer { margin-top:16px; color:var(--muted); font-size:13px; }
+
+/* responsive */
+@media (max-width: 980px) {
+  .os-grid { grid-template-columns: 1fr; }
+  .os-hero { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .order-badge { align-self:flex-end; }
+  .actions { flex-direction: row; gap:8px; }
+  .actions .btn { flex:1; }
+}
+
+</style>
+<div class="os-wrapper">
+
+  <div class="os-card">
+    <div class="os-hero">
+      <div class="os-hero-left">
+        <h1>Thank you — your order is confirmed</h1>
+        <p class="muted">We've emailed your receipt to <strong>{{ order.email }}</strong> (if provided).</p>
+      </div>
+      <div class="os-hero-right">
+        <div class="order-badge">
+          <div class="badge-label">Order</div>
+          <div class="badge-id">#{{ order.id }}</div>
+        </div>
+        <div class="order-meta">
+          <div>{{ order.created_at|date:"M j, Y" }}</div>
+          <div class="muted">Status: <strong>{% if order.is_paid %}Paid{% else %}Pending{% endif %}</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="os-grid">
+      <!-- Left: Items -->
+      <section class="os-items">
+        <h2>Order summary</h2>
+
+        <table class="items-table" aria-label="Order items">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th class="center">Details</th>
+              <th class="center">Qty</th>
+              <th class="right">Line total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in order.items.all %}
+            <tr>
+              <td class="item-cell">
+                {% if item.image_url %}
+                  <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                {% else %}
+                  <img src="{% static 'no-image.png' %}" alt="">
+                {% endif %}
+                <div class="item-title">{{ item.title }}</div>
+              </td>
+              <td class="center small">
+                {% if item.size %}<span>Size: {{ item.size }}</span>{% endif %}
+                {% if item.color %}<span>Color: {{ item.color }}</span>{% endif %}
+                {% if item.sku %}<div class="muted">SKU: {{ item.sku }}</div>{% endif %}
+              </td>
+              <td class="center">{{ item.quantity }}</td>
+              <td class="right">Rs {{ item.price|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Right: Shipping & totals -->
+      <aside class="os-summary">
+        <div class="box">
+          <h3>Shipping to</h3>
+          <div class="muted">{{ order.name }}</div>
+          <div>{{ order.address|linebreaksbr }}</div>
+          <div class="muted">
+            {% if order.city %}
+                {{ order.city.name }}
+            {% endif %}
+            {% if order.landmark %}
+                — {{ order.landmark }}
+            {% endif %}
+          </div>
+          <div class="muted">Phone: {{ order.phone }}</div>
+        </div>
+
+        <div class="box totals">
+          <div class="tot-row"><span>Subtotal</span><span>Rs {{ subtotal|floatformat:2 }}</span></div>
+          <div class="tot-row"><span>Delivery</span><span>Rs {{ order.delivery_price|floatformat:2 }}</span></div>
+          {% if order.coupon %}
+          <div class="tot-row">
+            <span>Coupon ({{ order.coupon.code }})</span>
+            <span class="text-green-600">- Rs {{ order.discount_amount|floatformat:2 }}</span>
+          </div>
+          {% endif %}
+          <hr>
+          <div class="tot-row total">
+            <span>Order Total</span>
+            <span class="total-val">Rs {{ order.total_price|floatformat:2 }}</span>
+          </div>
+        </div>
+
+        <div class="box actions">
+          <a class="btn primary" href="{% url 'order:order_lookup' %}">Order lookup</a>
+          <a class="btn ghost" href="{% url 'store:product_list' %}">Continue shopping</a>
+          <a class="btn small-link" href="">Download invoice (PDF)</a>
+        </div>
+      </aside>
+    </div>
+
+    <div class="os-footer muted small">
+      If you have questions about your order, email <a href="mailto:help@example.com">help@example.com</a> or reply to your order confirmation email.
+    </div>
+  </div>
 </div>
 {% endblock %}

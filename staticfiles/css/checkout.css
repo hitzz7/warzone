@@ -1,0 +1,319 @@
+/* --------------------------------------------------
+   Updated Checkout CSS (replace your current file)
+   - fixes vertical stacking of labels/fields
+   - keeps two-column rows on desktop and stacks on mobile
+   - ensures inputs fill their columns
+   - aligns the Save / Continue buttons correctly
+   - keeps summary sticky and responsive
+   -------------------------------------------------- */
+
+/* basic box-sizing for predictable layout */
+* { box-sizing: border-box; }
+
+/* Container: left form + right summary */
+.checkout-wrapper {
+  max-width: 1200px;
+  margin: 28px auto;
+  display: grid;
+  grid-template-columns: 1fr 380px; /* left form | right summary */
+  gap: 28px;
+  padding: 0 16px;
+  align-items: start;
+}
+
+/* Left column (form) */
+.checkout-left {
+  background: #fff;
+  padding-bottom: 8px;
+}
+
+/* Titles */
+.checkout-title {
+  font-size: 32px;
+  margin: 0 0 6px;
+  font-weight: 600;
+  color: #111;
+}
+.checkout-sub {
+  color: #666;
+  margin: 0 0 18px;
+}
+
+/* Section */
+.section {
+  margin-bottom: 32px;
+  border-radius: 6px;
+  display:block;
+}
+.section-title {
+  margin: 26px 0 8px;
+  font-size: 18px;
+  
+}
+
+
+/* Row helpers */
+/* Two-column row on desktop, stacks on narrower screens */
+.row.two-cols {
+  display: block;
+  gap: 12px;
+  flex-wrap: wrap; 
+  margin-left: 0px;
+  width: 100%;
+  
+  max-width: 700px;  
+  
+  align-items: center;
+}
+
+/* Each field wrapper */
+.field {
+  display: flex;
+  flex-direction: column; /* Stack label and input vertically */
+  flex: 1 1 48%; /* Adjust width for columns */
+  margin-bottom: 12px;
+  
+  min-width: 0; /* Prevent overflow */
+}
+
+
+/* Label displayed above input */
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #222;
+}
+
+/* Inputs, selects and textareas */
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="tel"],
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 14px;
+  color: #222;
+  outline: none;
+  transition: box-shadow .12s ease, border-color .12s ease;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #bbb;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+/* small utility classes */
+.input { width:100%; }           /* optional class you may add */
+.textarea { min-height: 90px; resize: vertical; } /* textarea style */
+
+/* Align-end helper (for Save button column) */
+.field.align-end {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  background: #f4f4f4;
+  color: #111;
+  font-size: 14px;
+}
+.btn.small { padding: 6px 10px; font-size: 13px; }
+.btn.primary { background: #111; color: #fff; border-color: #111; }
+.btn.save-shipping {
+  background: #111;
+  color: #fff;
+  border: none;
+  font-size:17px;
+  font-weight: 500;
+  padding: 12px 16px;
+  border-radius: 6px;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Shipping methods list */
+.shipping-methods { margin-top: 18px; }
+.shipping-options .ship-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin: 8px 0;
+  border: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+.ship-title { font-weight: 600; }
+.ship-sub { color: #777; font-size: 13px; }
+
+/* Right column (summary) */
+.checkout-right {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+}
+.summary-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+.summary-title { margin: 0 0 12px; font-size: 18px; }
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+  color: #333;
+}
+.summary-line.total { font-size: 16px; margin-top: 12px; font-weight: 600; }
+.value { color: #333; }
+.strong { font-weight: 700; }
+.muted {
+  display: block; 
+  margin-bottom: 20px;    /* ensures it stays on a new line */
+}
+
+/* Promo area */
+.promo { margin: 12px 0; }
+.promo-toggle {
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 8px 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+.promo-box { margin-top: 8px; }
+.promo-row { display: flex; gap: 8px; }
+.promo input.input { flex: 1; }
+
+/* Bag preview */
+.bag-items { list-style: none; padding: 0; margin: 12px 0 0; }
+.bag-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.bag-item img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.bag-item .title { font-weight: 600; }
+.meta-small { font-size: 13px; color: #777; }
+.qty-price { font-size: 13px; color: #222; margin-top: 6px; }
+
+/* Small spacing adjustments so title/desc/price are close */
+.product-info h3, .product-info p, .product-info .price {
+  margin: 4px 0;
+}
+
+/* Remove excessive default margins that can break layouts */
+ul, li { margin: 0; padding: 0; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1024px) {
+  .checkout-wrapper { grid-template-columns: 1fr 320px; gap: 20px; padding: 0 12px; }
+}
+
+@media (max-width: 768px) {
+  /* stack main columns on small screens */
+  .checkout-wrapper { grid-template-columns: 1fr; }
+  .checkout-right { position: relative; top: auto; margin-top: 18px; }
+
+  /* Stack two-cols into a single column on mobile */
+  .row.two-cols { flex-direction: column; gap: 12px; }
+
+  /* make Save button flow under rather than right-aligned */
+  .field.align-end { justify-content: flex-start; align-items: center; }
+}
+
+@media (max-width: 480px) {
+  .summary-card { padding: 14px; }
+  .bag-item img { width: 60px; height: 60px; }
+  .checkout-title { font-size: 26px; }
+  .row.two-cols { gap: 8px; }
+}
+
+/* Utility: force inputs to not overflow the grid column */
+.checkout-wrapper input, .checkout-wrapper select, .checkout-wrapper textarea {
+  max-width: 100%;
+}
+
+/* small accessibility focus outline */
+button:focus, input:focus, select:focus, textarea:focus {
+  outline: 3px solid rgba(0,0,0,0.06);
+  outline-offset: 2px;
+}
+
+/* Container */
+.coupon-container {
+  display: flex;
+  flex-wrap: wrap;       /* allows wrapping on small screens */
+  gap: 8px;  
+  margin-bottom:12px;            /* space between input and button */
+  margin-top: 12px;      /* space above the coupon section */
+}
+
+/* Input field */
+.coupon-container input[type="text"] {
+  flex: 1;               /* takes available width */
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 0px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.coupon-container input[type="text"]:focus {
+  border-color: #111;    /* highlight on focus */
+}
+
+/* Apply button */
+.coupon-container button {
+  padding: 10px 16px;
+  background-color: #111;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.coupon-container button:hover {
+  background-color: #333;
+}
+
+/* Optional: responsive for mobile */
+@media screen and (max-width: 480px) {
+  .coupon-container {
+    flex-direction: column;
+  }
+
+  .coupon-container button {
+    width: 100%;
+    border-radius: 3px;
+  }
+  
+}
+
+

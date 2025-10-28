@@ -1,0 +1,34 @@
+{# templates/emails/order_confirmation.txt #}
+Thanks {{ order.name }},
+
+Thanks for your order! Order #{{ order.id }}
+Date: {{ order.created_at|date:"M j, Y H:i" }}
+
+Items:
+{% for item in order.items.all %}
+- {{ item.title }}{% if item.size %} (Size: {{ item.size }}){% endif %}{% if item.color %} (Color: {{ item.color }}){% endif %}
+  Qty: {{ item.quantity }}  Price: ${{ item.price|floatformat:2 }}
+{% endfor %}
+{% comment %} 
+Subtotal: ${{ order.items.all|sum:'price'|floatformat:2 }} {% endcomment %}
+Delivery: ${{ order.delivery_price|floatformat:2 }}
+Total: ${{ order.total_price|floatformat:2 }}
+
+Shipping to:
+{{ order.name }}
+{{ order.address|linebreaksbr }}
+{% if order.city %}
+    {{ order.city.name }}
+{% endif %}
+{% if order.landmark %}
+     — {{ order.landmark }}
+{% endif %}
+
+Phone: {{ order.phone }}
+
+View your order: {{ order_lookup_url }}
+
+If you have questions, reply to this email or contact: {{ support_email }}
+
+Thanks,
+Your store team

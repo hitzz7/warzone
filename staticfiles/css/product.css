@@ -1,0 +1,309 @@
+<style>
+/* ----- Container ----- */
+.container {
+  width: 90%;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+.subcategory-container {
+    display: flex;
+    justify-content:flex-start;
+    
+    margin-left: 80px;
+    gap: 15px; /* space between subcategories */
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.subcategory-link {
+    text-decoration: none;
+    color: gray;
+    font-size: 20px;
+    font-weight: 900;
+    padding: 5px 10px;
+    transition: color 0.3s;
+}
+
+.subcategory-link:hover {
+    color: black; /* hover effect */
+}
+
+.subcategory-link.active {
+    color: black;
+    font-weight: 600;
+}
+
+
+/* ----- Category & Subcategory ----- */
+h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.subcategory-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.subcategory-list li {
+  background: #f7f7f7;
+  padding: 10px 20px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.subcategory-list li:hover {
+  background: #222;
+}
+
+.subcategory-list li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.subcategory-list li:hover a {
+  color: #fff;
+}
+
+/* ----- Product Grid ----- */
+.product-grid {
+  display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 80px;   /* Smooth scroll */
+}
+
+/* ----- Product Card ----- */
+
+
+/* ----- Product Info Overlay ----- */
+/* Grid for all products */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+   margin:0 auto;
+    gap: 15px;
+    
+    
+}
+
+/* Card for image only */
+.product-card {
+    background: #fff;
+    
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.product-card img {
+    width: 100%;
+    width:405px;
+    height: 550px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Product info outside the card */
+.product-info {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.product-info h3 {
+    font-size: 18px;
+    margin-bottom: -10px; /* smaller space under title */
+}
+
+.product-info p {
+    font-size: 14px;
+    margin-bottom: -20px;   /* slightly smaller for description */
+       /* reduced spacing */
+}
+
+.product-info .price {
+      /* reduce space above price */
+    font-size: 16px;
+    margin-bottom: -20px;
+}
+
+
+
+.discount-price {
+    color: #e63946;
+    font-weight: bold;
+}
+
+
+/* Each product item wraps card + info */
+.product-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ----- Container ----- */
+.container {
+  width: 90%;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+.container h1{
+  color:#111;
+  
+}
+
+
+/* ----- Category & Subcategory ----- */
+h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.subcategory-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.subcategory-list li {
+  background: #f7f7f7;
+  padding: 10px 20px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.subcategory-list li:hover {
+  background: #222;
+}
+
+.subcategory-list li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.subcategory-list li:hover a {
+  color: #fff;
+}
+
+/* ----- Product Grid ----- */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 15px;
+  margin: 0 auto;
+  justify-items: center;
+}
+
+/* ----- Product Card ----- */
+.product-card {
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.product-card img {
+  width: 100%;
+  max-width: 405px;
+  height: 550px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Product info outside the card */
+.product-info {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.product-info h3 {
+  font-size: 18px;
+  margin-bottom: 0px;
+}
+
+.product-info p {
+  font-size: 14px;
+  margin: 2px 0;
+}
+
+.product-info .price {
+  font-size: 16px;
+}
+
+.discount-price {
+  color: #e63946;
+  font-weight: bold;
+}
+
+/* Each product item wraps card + info */
+.product-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ----- Responsive ----- */
+@media screen and (max-width: 780px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 10px;   /* reduce vertical space */
+    column-gap: 0px; /* keep horizontal gap reasonable */
+  }
+
+  .product-card img {
+    height: 600px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 0px;    
+    column-gap: 15px;
+  }
+
+  .product-item {
+    margin: 0;
+    padding:0;   /* remove extra spacing from each product item */
+  }
+
+  .product-info {
+    margin-top: 3px; /* small spacing between image and info */
+    margin-bottom: 0; /* remove bottom margin if any */
+  }
+
+  .product-card img {
+    height: 500px;
+  }
+  .product-info h3,
+  .product-info p {
+    margin: 2px 0;
+  }
+}
+
+/* ----- Responsive ----- */
+
+</style>

@@ -1,0 +1,54 @@
+{% extends './navbar.html' %}
+{% load static %}
+
+{% block title %}Order Lookup{% endblock %}
+
+{% block content %}
+<div class="lookup-wrapper" style="max-width:600px;margin:40px auto;padding:20px;background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+
+  <h1 style="margin-bottom:10px;">Order Lookup</h1>
+  <p class="muted">Enter your Order ID and email to view your order details.</p>
+
+  <form method="post" style="margin:20px 0;">
+    {% csrf_token %}
+    <div class="form-group" style="margin-bottom:15px;">
+      <label for="order_id">Order ID</label>
+      <input type="text" name="order_id" id="order_id" class="form-control" required>
+    </div>
+    <div class="form-group" style="margin-bottom:15px;">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%;background-color:#111;color:white;">Lookup Order</button>
+  </form>
+
+  {% if message %}
+    <div style="margin:15px 0;color:#d9534f;">{{ message }}</div>
+  {% endif %}
+
+  {% if order %}
+    <div class="order-details" style="margin-top:25px;">
+      <h2>Order #{{ order.id }}</h2>
+      <p><strong>Name:</strong> {{ order.name }}</p>
+      <p><strong>Email:</strong> {{ order.email }}</p>
+      <p><strong>Address:</strong> {{ order.address }}</p>
+      <p><strong>City:</strong> {{ order.city }}</p>
+      <p><strong>Phone:</strong> {{ order.phone }}</p>
+      <p><strong>Landmark:</strong> {{ order.landmark }}</p>
+
+      <h3 style="margin-top:20px;">Items</h3>
+      <ul style="list-style:none;padding:0;">
+        {% for item in order.items.all %}
+          <li style="border-bottom:1px solid #eee;padding:8px 0;">
+            {{ item.title }} — {{ item.quantity }} × ${{ item.price }}
+          </li>
+        {% empty %}
+          <li>No items found in this order.</li>
+        {% endfor %}
+      </ul>
+
+      <p style="margin-top:15px;"><strong>Total:</strong> ${{ order.total_price }}</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

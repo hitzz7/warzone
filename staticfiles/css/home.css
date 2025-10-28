@@ -1,0 +1,844 @@
+.bg-image {
+    position: relative;
+    width: 100vw;
+    margin-top: -170px;
+    height: 120vh; /* Full viewport height */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    z-index: -1;
+    justify-content: center;
+     /* Fallback color */
+}
+.bg-image video {
+    width:100vw;
+    max-width:100%;
+    height: 120vh;
+    object-fit: cover; /* Ensure the image covers the entire area */
+    object-position: center;
+    transition: transform 0.3s ease; /* Center the image */
+}
+.hero-section video {
+    width:100vw;
+    max-width:100%;
+    height: 120vh;
+    object-fit: cover; /* Ensure the image covers the entire area */
+    object-position: center;
+    transition: transform 0.3s ease; /* Center the image */
+}
+.bg-image img.poster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+.swim-video {
+  position: relative;
+  width: 100vw;
+  height: 120vh; 
+  overflow: hidden; /* hides overflow after rotation */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* optional, for contrast */
+}
+
+.swim-video video {
+    width: 100vh; /* use height as width since it’s rotated */
+    height: 120vw;
+    object-fit: contain;
+    transform: rotate(90deg); /* rotate the video 90 degrees clockwise */
+    transform-origin: center center; /* rotate around center */
+    display: block;
+}
+.swim-video img {
+    width: 120vh; /* use height as width since it’s rotated */
+    height: 100vw;
+    object-fit: cover;
+    transform: rotate(-90deg); /* rotate the video 90 degrees clockwise */
+    transform-origin: center center; /* rotate around center */
+    display: block;
+    
+}
+@media (max-width: 480px) {
+  .swim-video {
+    height: 180vw; /* taller to fit rotated video */
+    margin-top: -40px; /* adjust to align properly */
+  }
+
+  .swim-video img {
+    width: 180vw; /* scale width based on rotated height */
+    height: 100vh; /* fit within viewport height */
+    object-fit: cover;
+    transform: rotate(0deg);
+    transform-origin: center center;
+  }
+}
+.bg-image image {
+    width:100vw;
+    max-width:100%;
+    height: 120vh;
+    object-fit: cover; /* Ensure the image covers the entire area */
+    object-position: center;
+    transition: transform 0.3s ease; /* Center the image */
+}
+
+
+
+.bottom-left-text {
+    position: absolute;
+    bottom: 80px; /* Distance from the bottom of the image */
+    left: 60px;   /* Distance from the left of the image */
+    color: black;
+    font-family: 'Calton', sans-serif;
+    font-size: 50px;
+    font-weight:bold;
+     /* Optional: Add a semi-transparent background for readability */
+    padding: 10px 15px; /* Add padding for better appearance */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow for better visibility */
+}
+
+
+/* Image styling */
+.bg-image video {
+    width:100vw;
+    max-width:100%;
+    height: 100vh;
+    object-fit: cover; /* Ensure the image covers the entire area */
+    object-position: center;
+    transition: transform 0.3s ease; /* Center the image */
+}
+.button {
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+   
+    transition: color 0.3s ease;
+}
+
+/* Create the small underline */
+.button::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px; /* distance from text */
+    width: 100%;
+    height: 1px; /* thin underline */
+    background-color: white;
+    transition: height 0.3s ease; /* smooth transition */
+}
+
+/* On hover, make underline thicker */
+.button:hover::after {
+    height: 2px; /* thicker underline on hover */
+}
+
+/* underline always visible at start */
+
+
+            
+        
+    
+  .text-overlay {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* change to flex-end for bottom alignment */
+  align-items: flex-start;     /* text aligned left */
+  text-align: left;
+  color: #F0EAD2;
+  padding: 20px;
+  z-index: 20;
+  max-width: 80%;
+  left:5%;
+  bottom: 20%; /* use top for flex-start alignment */
+  /* bottom: 20px; */ /* use this and comment top if using flex-end */
+}
+
+/* Heading and paragraph */
+.text-overlay h1 {
+  font-size: 64px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: white;
+}
+
+.text-overlay p {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: white;
+}
+@media (max-width: 480px) {
+  .bg-image {
+    height: 90vh;
+    margin-top: -150px;
+     /* reduce height for mobile */
+     /* fix overlap */
+  }
+
+  .bg-image img {
+    height: 90vh;
+    object-position: top center;
+  }
+  
+  .text-overlay {
+    max-width: 90%;
+    padding: 10px;
+    justify-content: flex-end; /* top */
+    align-items: flex-start;
+    left: 5%;
+    bottom: 15%;
+  }
+
+  .text-overlay h1 {
+    font-size: clamp(24px, 8vw, 36px);
+    margin-bottom: 10px;
+  }
+
+  .text-overlay p {
+    font-size: clamp(14px, 4vw, 20px);
+    margin-bottom: 15px;
+  }
+
+  .button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+
+  .button::after {
+    bottom: -3px;
+    height: 1px;
+  }
+}
+
+.split-section {
+      display: flex;
+      height: 120vh;
+      width: 100%;
+    }
+
+    .split {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .split img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .overlay {
+  position: absolute;
+  
+  bottom: 0px;  
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4); /* dark overlay for readability */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* vertical centering */
+  align-items: flex-start; /* align items to the left */
+  text-align: left;        /* text aligns left */
+  color: white;
+  padding: 40px;           /* more padding on left for spacing */
+}
+
+
+    .overlay h2 {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+
+    .overlay p {
+      font-size: 20px;
+      margin-bottom: 20px;
+      max-width: 500px;
+    }
+
+   .overlay button {
+  position: relative;
+  padding: 12px 28px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden; /* ensures pseudo-element stays inside */
+}
+
+/* Initial thin underline visible */
+.overlay button::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;        /* place directly under text */
+  width: 100%;       /* full width */
+  height: 1px;       /* thin line */
+  background-color: white;
+  transform: scaleX(1);       /* initially visible */
+  transform-origin: left;     /* scale from left */
+  transition: transform 0.3s ease, height 0.3s ease; /* animate width and height */
+}
+/* On hover: animate from left to right and thicken */
+.overlay button:hover::after {
+   /* expand underline */
+  height: 2px;           /* thicken */
+}
+
+    
+    /* Responsive: stack vertically on small screens */
+    @media (max-width: 768px) {
+      .split-section {
+        flex-direction: column;
+      }
+      .overlay h2 {
+        font-size: 32px;
+      }
+      .overlay p {
+        font-size: 16px;
+      }
+    }
+    .four-grid-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      height: 250vh;
+      width: 100%;
+    }
+
+    .four-grid-item {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .four-grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .four-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .four-overlay h2 {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .four-overlay p {
+      font-size: 20px;
+      margin-bottom: 18px;
+      max-width: 400px;
+    }
+        .four-overlayb {
+      display: flex;           /* make children horizontal */
+      gap: 20px;               /* spacing between buttons */
+      flex-wrap: wrap;         /* optional: wraps on smaller screens */
+    }
+
+    .four-overlayb button {
+      position: relative;
+  padding: 12px 28px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden; 
+    }
+
+    .four-overlayb button::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;        /* place directly under text */
+  width: 100%;       /* full width */
+  height: 1px;       /* thin line */
+  background-color: white;
+  transform: scaleX(1);       /* initially visible */
+  transform-origin: left;     /* scale from left */
+  transition: transform 0.3s ease, height 0.3s ease; /* animate width and height */
+}
+/* On hover: animate from left to right and thicken */
+.four-overlay button:hover::after {
+   /* expand underline */
+  height: 2px;           /* thicken */
+}
+
+    /* Responsive: stack vertically on small screens */
+    @media (max-width: 768px) {
+      .four-grid-section {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 1fr);
+      }
+      .four-overlay h2 {
+        font-size: 24px;
+      }
+      .four-overlay p {
+        font-size: 14px;
+      }
+    }
+
+    .heading-section {
+      height: 50vh; /* fullscreen */
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: #fff;
+      padding: 20px;
+    }
+
+    .heading-section h3 {
+      font-size: 64px; /* big heading */
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #222;
+    }
+
+    .heading-section h2 {
+      font-size: 24px; /* short heading */
+      font-weight: 400;
+      color: #555;
+    }
+
+    /* Responsive for smaller screens */
+    @media (max-width: 768px) {
+      .heading-section h3 {
+        font-size: 40px;
+      }
+      .heading-section h2 {
+        font-size: 18px;
+      }
+    }
+
+
+    .half-section {
+  display: flex;
+  width: 100%;
+  min-height: 300px;
+}
+
+.half-image{
+  width: 50%;
+}
+.half-text {
+  width: 50%;
+}
+
+.half-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.half-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.half-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.half-text p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.cta-button {
+  padding: 12px 30px;
+  font-size: 1rem;
+  background-color: #0097b2;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #007a90;
+}
+
+/* Reverse layout for second row */
+.half-section.reverse {
+  flex-direction: row-reverse;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .half-section {
+    flex-direction: column;
+  }
+
+  .half-image, .half-text {
+    width: 100%;
+  }
+
+  .half-text {
+    padding: 20px;
+    text-align: center;
+    align-items: center;
+  }
+}
+
+    .section-wrapper {
+  width: 100%;
+}
+
+/* Common styles for sections */
+.section {
+  display: flex;
+  flex-direction: row; /* side by side */
+  width: 100%;
+  min-height: 60vh; /* adjust as needed */
+  align-items: stretch; /* ensures children stretch equally */
+}
+
+/* Section types: image left / right */
+.img-left .section-image { order: 1; }
+.img-left .section-text { order: 2; }
+
+.img-right .section-text { order: 1; }
+.img-right .section-image { order: 2; }
+
+/* Image side - 50% width */
+.section-image {
+  flex: 1; /* 50% width */
+  overflow: hidden;
+}
+.section-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* maintains aspect ratio */
+  display: block;
+  transition: transform 0.5s ease;
+}
+.section-image img:hover {
+  transform: scale(1.05);
+}
+
+/* Text side - 50% width */
+.section-text {
+  flex: 1; /* 50% width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background: #fff;
+  color: black;
+  border-top: 2px solid black;
+}
+.section-inner {
+  max-width: 600px;
+  text-align: left;
+}
+
+/* Titles, subtitles, prices, buttons */
+.section-title {
+  font-size: clamp(32px, 5vw, 56px);
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+.section-subtitle {
+  font-size: clamp(16px, 2vw, 20px);
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+.section-price {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff4081;
+  margin-bottom: 20px;
+}
+.section-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  background: black;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.section-btn:hover {
+  background: #e73370;
+  transform: translateY(-2px);
+}
+
+/* Responsive: stack image and text vertically on mobile */
+@media (max-width: 768px) {
+  .section {
+    flex-direction: column;
+  }
+  .section-image,
+  .section-text {
+    width: 100%;
+    height: 50vh;
+  }
+  .section-inner { text-align: center; }
+}
+
+
+    .category-row {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      height:40vh;
+      background: #fff;
+      padding: 30px 0;
+      border-bottom: 1px solid #ddd;
+      width: 100%;
+    }
+
+    .category {
+      flex: 0 0 25%; /* 25% width per category */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      padding: 0 20px;
+    }
+
+    /* Vertical line between categories */
+    .category:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 10%;
+      height: 80%;
+      width: 1px;
+      background: #ddd;
+    }
+
+    .category-title {
+      font-size: 40px;
+      font-weight: bold;
+      color: #222;
+      margin-bottom: 10px;
+    }
+
+    .category-subtitles {
+      display: flex;
+      gap: 20px; /* space between Women & Men */
+      justify-content: center;
+    }
+
+    /* Women/Men buttons */
+    .category-btn {
+      font-size: 18px;
+      color: #555;
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      padding: 5px 0;
+      transition: color 0.3s ease;
+    }
+
+    /* Underline animation */
+    .category-btn::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: black;
+      transition: width 0.3s ease;
+    }
+
+    .category-btn:hover {
+      color: black;
+    }
+
+    .category-btn:hover::after {
+      width: 100%;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .category-row {
+        flex-wrap: wrap;
+      }
+      .category {
+        flex: 0 0 50%; /* stack 2 per row on small screens */
+        margin-bottom: 20px;
+      }
+      .category:not(:last-child)::after {
+        display: none;
+      }
+      .category-title {
+        font-size: 22px;
+      }
+      .category-btn {
+        font-size: 16px;
+      }
+    }
+
+    .hero-section {
+      position: relative;
+      width: 100%;
+      height: 120vh; /* fullscreen */
+      overflow: hidden;
+    }
+
+    .hero-section img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;       /* fills container, may crop */
+      object-position: center 15%; /* controls visible portion */
+      display: block;
+    }
+
+    .hero-text {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end; /* change to flex-end for bottom alignment */
+      align-items: flex-start;     /* text aligned left */
+      text-align: left;
+      color: #F0EAD2;
+      padding: 20px;
+      z-index: 20;
+      max-width: 80%;
+      left:5%;
+      bottom: 15%;
+    }
+
+    .hero-text h2 {
+       font-size: 64px;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .hero-text p {
+      font-size: 24px;
+  margin-bottom: 15px;
+  color: white;
+    }
+
+    .hero-text .hero-btn {
+      position: relative;
+  padding: 12px 28px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;  /* no underline */
+    }
+
+    .hero-text .hero-btn:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;        /* place directly under text */
+      width: 100%;       /* full width */
+      height: 1px;       /* thin line */
+      background-color: white;
+      transform: scaleX(1);       /* initially visible */
+      transform-origin: left;     /* scale from left */
+      transition: transform 0.3s ease, height 0.3s ease; 
+    }
+
+    .hero-text .hero-btn:hover::after{
+      height: 2px;  
+    }
+
+    /* Responsive */
+   @media (max-width: 768px) {
+  .hero-text h2
+  
+  {
+    font-size: clamp(28px, 8vw, 50px);
+  }
+  .hero-text p {
+    font-size: clamp(16px, 3vw, 20px);
+  }
+  .hero-text .hero-btn {
+    font-size: 16px;
+    padding: 10px 25px;
+  }
+}
+
+/* ===== Mobile Responsive (480px and below) ===== */
+@media (max-width: 480px) {
+  .hero-section {
+    height: 90vh; /* reduce height for mobile screens */
+  }
+
+  .hero-section img {
+    height: 90vh;
+    object-position: top center;
+  }
+
+  .hero-text {
+    max-width: 95%;
+    padding: 10px;
+    left: 5%;
+    bottom: 15%; /* move text slightly upward */
+  }
+
+  .hero-text h2 {
+    font-size: clamp(22px, 7vw, 32px);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .hero-text p {
+    font-size: clamp(14px, 4vw, 18px);
+    margin-bottom: 10px;
+  }
+
+  .hero-text .hero-btn {
+    padding: 8px 18px;
+    font-size: 14px;
+  }
+
+  
