@@ -9,7 +9,10 @@ a {
   color: white; 
 }
 
+
 body {
+    margin: 0;
+    padding: 0;
     font-family: "futura", sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
@@ -153,6 +156,13 @@ body {
 }
 
 /* Discount Banner */
+
+
+.banner-message {
+    display: none;
+}
+
+/* Header */
 .discount-banner {
     background-color:black;
     color: #fff;
@@ -162,11 +172,6 @@ body {
     z-index: 1001;
 }
 
-.banner-message {
-    display: none;
-}
-
-/* Header */
 .header {
     height: 100px;
     display: flex;

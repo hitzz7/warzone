@@ -10,6 +10,27 @@
     justify-content: center;
      /* Fallback color */
 }
+@media (min-width: 481px) and (max-width: 1024px) {
+    .bg-image {
+        height: 100vh;
+        margin-top: -150px; /* adjust for tablet header */
+    }
+}
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .bg-image {
+        height: 110vh;
+        margin-top: -170px; /* adjust for MacBook header */
+    }
+}
+
+/* Large desktops */
+@media (min-width: 1441px) and (max-width: 1530px) {
+    .bg-image {
+        height: 120vh;
+        margin-top: -230px; /* original large screen setup */
+    }
+}
+
 .bg-image video {
     width:100vw;
     max-width:100%;
