@@ -69,7 +69,7 @@ def product_list(request, category_slug=None, parent_slug=None):
     size = request.GET.get("size")
     color = request.GET.get("color")
     sort = request.GET.get('sort')
-    product_type = request.GET.get("type")
+    product_type_param = request.GET.get("product_type")
     product_types = ProductType.objects.all() # get all types
 
     if category_slug and category_slug != "all":
@@ -92,8 +92,14 @@ def product_list(request, category_slug=None, parent_slug=None):
     if color:
         products = products.filter(variants__color__name=color).distinct()
         
-    if product_type:
-        products = products.filter(product_type__iexact=product_type)
+    product_type_name = None
+    if product_type_param:
+        try:
+            product_type_obj = ProductType.objects.get(name__iexact=product_type_param)
+            products = products.filter(product_type=product_type_obj)
+            product_type_name = product_type_obj.name  # For display in template
+        except ProductType.DoesNotExist:
+            pass 
 
 
     if sort == "price_low_high":
@@ -112,6 +118,7 @@ def product_list(request, category_slug=None, parent_slug=None):
         "sizes": sizes,
         "colors": colors,
         "product_types": product_types,
+        "product_type_name": product_type_name,
     }
     return render(request, "Warzone/product.html", context)
 

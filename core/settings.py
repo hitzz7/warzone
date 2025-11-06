@@ -28,7 +28,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.73','tsabinz.com','www.tsabinz.com']
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,7 +41,10 @@ INSTALLED_APPS = [
     'order',
     'mptt',
     "widget_tweaks",
+    'django.contrib.sitemaps',
+    
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

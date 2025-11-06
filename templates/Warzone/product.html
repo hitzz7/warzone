@@ -5,7 +5,13 @@
 
 {% block content %}
 <div class="container" style="display: flex; justify-content: flex-start; margin-bottom: -20px;">
-    <h1>{{ category.name }}s Clothing</h1>
+    {% if product_type_name %}
+        <h1>{{ product_type_name }} Collection</h1>
+    {% elif category %}
+        <h1>{{ category.name }}s Clothing</h1>
+    {% else %}
+        <h1>All Products</h1>
+    {% endif %}
 </div>
 <div class="subcategory-container" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
     {% if subcategories %}
@@ -117,34 +123,7 @@
     {% endfor %}
 
     <!-- Manually added product 1 -->
-    <div class="product-item">
-        <div class="product-card">
-            <a href="#">
-                <img src="{% static 'maya1.jpg' %}" alt="Example Product 1">
-            </a>
-        </div>
-        <div class="product-info">
-            <h3 class="product-title">Example Product 1</h3>
-            <p class="product-description">This is a sample description for product 1.</p>
-            <p class="product-price"><span class="regular-price">$49.99</span></p>
-        </div>
-    </div>
-
-    <!-- Manually added product 2 -->
-    <div class="product-item">
-        <div class="product-card">
-            <a href="#">
-                <img src="{% static 'maya1.jpg' %}" alt="Example Product 2">
-            </a>
-        </div>
-        <div class="product-info">
-            <h3 class="product-title">Example Product 2</h3>
-            <p class="product-description">This is a sample description for product 2.</p>
-            <p class="product-price"><span class="discount-price">$39.99</span></p>
-        </div>
-    </div>
-</div>
-
+    
 
 
 </div>

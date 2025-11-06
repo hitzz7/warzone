@@ -2,8 +2,14 @@ from . import views
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from .sitemaps import CategorySitemap, ProductSitemap
+from django.contrib.sitemaps.views import sitemap
 app_name = 'store'
 
+sitemaps = {
+    'categories': CategorySitemap,
+    'products': ProductSitemap,
+}
 urlpatterns = [
     path('',views.home, name="home"),
     path("products", views.product_list, name="product_list"),   
@@ -16,6 +22,7 @@ urlpatterns = [
     path("cart/remove/", views.cart_remove, name="cart_remove"),
     path('apply-coupon/', views.apply_coupon, name='apply_coupon'),
     path('search-json/', views.search_json, name='search_json'),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
    
 ]
 
