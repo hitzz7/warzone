@@ -10,13 +10,13 @@
   <div class="product-gallery">
     <div class="thumbnail-column">
         {% for img in images %}
-        <img src="{{ img.image.url }}" alt="{{ product.title }}" onclick="document.getElementById('mainImage').src=this.src">
+        <img src="{{ img.image.url }}" alt="{{ product.title }}" loading="lazy" onclick="document.getElementById('mainImage').src=this.src">
         {% endfor %}
     </div>
 
     <div class="main-image">
         {% for img in images %}
-        <img id="mainImage" src="{{ img.image.url }}" alt="{{ product.title }}">
+        <img id="mainImage" src="{{ img.image.url }}" alt="{{ product.title }}" loading="lazy" >
         {% endfor %}
         
     </div>
@@ -24,7 +24,7 @@
   <div class="slides" id="slides">
     {% for img in images %}
     <div class="slide" data-index="{{ forloop.counter0 }}">
-      <img src="{{ img.image.url }}" alt="{{ product.title }} - {{ forloop.counter }}">
+      <img src="{{ img.image.url }}" loading="lazy"  alt="{{ product.title }} - {{ forloop.counter }}">
     </div>
     {% endfor %}
   </div>
@@ -119,7 +119,7 @@
           <a href="{% url 'store:product_detail' related.slug %}">
             {% with related.images.first as feature_image %}
               {% if feature_image %}
-                <img src="{{ feature_image.image.url }}" alt="{{ related.title }}">
+                <img src="{{ feature_image.image.url }}" loading="lazy" alt="{{ related.title }}">
             {% else %}
               <img src="{% static 'no-image.png' %}" alt="No image available">
             {% endif %}
@@ -147,7 +147,7 @@
 
   <section class="hero-section">
     <video autoplay muted loop playsinline>
-      <source src="{% static 'Fur (1).mp4' %}" type="video/mp4" alt="Tsabinz Winter Collection">
+      <source src="{% static 'fff.mp4' %}" loading="lazy" preload="none" type="video/mp4" alt="Tsabinz Winter Collection">
       Your browser does not support the video tag.
     </video>
     <div class="hero-text">

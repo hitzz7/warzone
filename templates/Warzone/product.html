@@ -99,7 +99,7 @@
             <a href="{% url 'store:product_detail' product.slug %}">
                 {% with product.images.first as feature_image %}
                     {% if feature_image %}
-                        <img src="{{ feature_image.image.url }}" alt="{{ product.title }}">
+                        <img src="{{ feature_image.image.url }}" loading="lazy" alt="{{ product.title }}">
                     {% else %}
                         <img src="{% static 'no-image.png' %}" alt="No image available">
                     {% endif %}
