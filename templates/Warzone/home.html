@@ -5,9 +5,9 @@
 
 {% block content %}
 <div class="bg-image">
-        <img src="{% static 'black.png' %}" alt="Poster" class="poster" id="videoPoster">
+        <img src="{% static 'black.png' %}" alt="Poster"  loading="eager" class="poster" id="videoPoster">
     
-        <video autoplay muted loop playsinline id="homepageVideo">
+        <video autoplay muted loop playsinline  poster="{% static 'black.png' %}" preload="auto" id="homepageVideo">
             <source src="{% static 'tsabinvideoc.mp4' %}" type="video/mp4" alt="Tsabinz TGIF Fashion Week">
             Your browser does not support the video tag.
         </video>
@@ -38,7 +38,7 @@
 
  <section class="split-section">
     <div class="split">
-      <img src="{% static "ts1.jpg"%}" alt="Tsabinz Women Clothing">
+      <img src="{% static "ts1.jpg"%}" loading="lazy" alt="Tsabinz Women Clothing">
       <div class="overlay">
         <h2>For Her</h2>
         <p>Discover our latest collection for women. Elegant, stylish, and perfect for every occasion.</p>
@@ -48,7 +48,7 @@
       </div>
     </div>
     <div class="split">
-      <img src="{% static "ts2.jpg"%}" alt="Tsabinz Men Clothing">
+      <img src="{% static "ts2.jpg"%}" loading="lazy" alt="Tsabinz Men Clothing">
       <div class="overlay">
         <h2>For Him</h2>
         <p>Explore our latest collection for men. Stylish, modern, and perfect for any occasion.</p>
@@ -66,7 +66,7 @@
   
   <div class="swim-video">
     
-        <img src="{% static 'swim2.jpg' %}" alt="Tsabinz SwimWear">
+        <img src="{% static 'swim2.jpg' %}" loading="lazy" alt="Tsabinz SwimWear">
         
     
     <div class="hero-text">
@@ -103,7 +103,7 @@
 
  <section class="four-grid-section">
     <div class="four-grid-item">
-      <img src="{% static "top.jpg"%}" alt="Tsabinz Tops">
+      <img src="{% static "top.jpg"%}"  loading="lazy" alt="Tsabinz Tops">
       <div class="four-overlay">
         <h2>Tops</h2>
         <p>perfect for any occasion, crafted for comfort and modern fashion.</p>
@@ -117,7 +117,7 @@
       </div>
     </div>
     <div class="four-grid-item">
-      <img src="{% static "body.jpg"%}" alt="Tsabinz Dresses">
+      <img src="{% static "body.jpg"%}" loading="lazy" alt="Tsabinz Dresses">
       <div class="four-overlay">
         <h2>Dress</h2>
         <p>Sleek and flattering dresses that hug your curves</p>
@@ -129,7 +129,7 @@
       </div>
     </div>
     <div class="four-grid-item">
-      <img src="{% static "jack.jpg"%}" alt="Tsabinz Jackets">
+      <img src="{% static "jack.jpg"%}" loading="lazy" alt="Tsabinz Jackets">
       <div class="four-overlay">
         <h2>Jackets</h2>
         <p>Chic and cozy jackets that keep you warm </p>
@@ -141,7 +141,7 @@
       </div>
     </div>
     <div class="four-grid-item">
-      <img src="{% static "swim.jpg"%}" alt="Tsabinz SwimWear">
+      <img src="{% static "swim.jpg"%}" loading="lazy" alt="Tsabinz SwimWear">
       <div class="four-overlay">
         <h2>Swim Wear</h2>
         <p>Make your Summer Unforgettable</p>
@@ -161,7 +161,7 @@
 
 
 <section class="hero-section">
-    <img src="{% static "resort.JPG"%}" alt="Tsabinz Resort Collection">
+    <img src="{% static "resort.JPG"%}"  loading="lazy" alt="Tsabinz Resort Collection">
     <div class="hero-text">
       <h2>Resort Collection</h2>
       <p>Relaxed, chic, and effortlessly for vacation, beach days, and sun-soaked getaways</p>
@@ -170,7 +170,7 @@
   </section>
   <section class="bg-image">
     <video autoplay muted loop playsinline>
-      <source src="{% static 'fff.mp4' %}" type="video/mp4" alt="Tsabinz Winter Collection">
+      <source src="{% static 'fff.mp4' %}" type="video/mp4" preload="none" alt="Tsabinz Winter Collection">
       Your browser does not support the video tag.
     </video>
     <div class="hero-text">
