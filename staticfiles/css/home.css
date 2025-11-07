@@ -201,7 +201,7 @@
 }
 @media (max-width: 480px) {
   .bg-image {
-    height: 90vh;
+    height: 95vh;
     margin-top: -150px;
      /* reduce height for mobile */
      /* fix overlap */
