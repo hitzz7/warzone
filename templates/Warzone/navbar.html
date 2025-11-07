@@ -139,8 +139,8 @@
               
               <div class="col">
                 <h4>Shop by Type</h4>
-                <a href="#">New Arrivals</a>
-                <a href="#">Best Sellers</a>
+                <a href="{% url 'store:category_products' 'men' %}?sort=newest">New Arrivals</a>
+                <a href="{% url 'store:category_products' 'men' %}?sort=best_selling">Best Sellers</a>
               </div>
               <!-- add more cols as needed -->
             </div>
@@ -173,8 +173,8 @@
               
               <div class="col">
                 <h4>Shop by Type</h4>
-                <a href="#">New Arrivals</a>
-                <a href="#">Best Sellers</a>
+                <a href="{% url 'store:category_products' 'women' %}?sort=newest">New Arrivals</a>
+                <a href="{% url 'store:category_products' 'women' %}?sort=best_selling">Best Sellers</a>
               </div>
               <!-- add more cols as needed -->
             </div>
