@@ -136,11 +136,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # settings.py
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = 'mail.tsabinz.com'
+EMAIL_PORT = 465
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'najus777@gmail.com'  # Your Gmail email address
-EMAIL_HOST_PASSWORD = 'ugck woat fali zlke'  # Gmail App Password (not your Gmail password)
+EMAIL_HOST_USER = 'official@tsabinz.com' # Your Gmail email address
+EMAIL_HOST_PASSWORD = '5A#%D)LmjT(OGAGU'  # Gmail App Password (not your Gmail password)
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
@@ -156,3 +156,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ------------------------
 PAYPAL_CLIENT_ID = "YOUR_PAYPAL_CLIENT_ID"
 PAYPAL_SECRET = "YOUR_PAYPAL_SECRET"
+
+# webmail:5A#%D)LmjT(OGAGU
