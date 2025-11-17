@@ -1,10 +1,9 @@
+
 # Python bytecode
 __pycache__/
-*.py[cod]
+*.pyc
 
-# Django local settings
-
-
+# SQLite database
 tsabindb.sqlite3
 
 # Environment / virtualenv
@@ -18,6 +17,14 @@ venv/
 # Media files (uploads)
 media/
 
+# Django static files (after collectstatic)
+staticfiles/
+
+# Node / frontend builds (if any)
+node_modules/
+dist/
+build/
+
 # IDE/editor settings
 .vscode/
 .idea/
@@ -25,3 +32,7 @@ media/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Coverage / testing
+.coverage
+htmlcov/
