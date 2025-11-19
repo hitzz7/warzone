@@ -50,9 +50,13 @@ def base_context(request):
     men = get_object_or_404(Category, slug='men', is_active=True)
     men_children = men.get_children().filter(is_active=True)
     
+    
+    product_types = ProductType.objects.all()
+    
     return {
         "top_categories": top_categories,
         'men_children': men_children,
+        "product_types": product_types,
     }
     
 def home(request):

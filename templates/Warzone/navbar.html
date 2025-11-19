@@ -73,10 +73,10 @@
                 <a href="{% url 'store:category_products' 'women' %}">Women</a>
               </div>
                <div class="col">
-                <h4>Collection</h4>
-                <a href="{% url 'store:category_products' 'men' %}">Swimwear</a>
-                <a href="{% url 'store:category_products' 'women' %}">Winter Collection</a>
-                   <a href="{% url 'store:category_products' 'women' %}">Resort Collection</a>
+                  <h4>Collection</h4>
+                  {% for type in product_types %}
+                      <a href="{% url 'store:product_list' %}?product_type={{ type.name|urlencode }}">{{ type.name }}</a>
+                  {% endfor %}
               </div>
               <div class="col">
               <h4>women</h4>
@@ -121,7 +121,7 @@
             <div class="mega-content">
               <!-- Put columns, lists, images, or whatever here -->
               <div class="col">
-              <h4>Clothing</h4>
+              <h4>Category</h4>
 
               {% for cat in top_categories %}
                 {% if cat.slug == 'men' %}
@@ -155,7 +155,7 @@
             <div class="mega-content">
               <!-- Put columns, lists, images, or whatever here -->
               <div class="col">
-              <h4>Clothing</h4>
+              <h4>Category</h4>
 
               {% for cat in top_categories %}
                 {% if cat.slug == 'women' %}
@@ -182,7 +182,23 @@
         </li>
 
 
-        <li><a href="{% url 'store:home' %}">Home</a></li>
+         <li class="dropdown">
+          <a href="{% url 'store:category_products' 'women' %}">Collection</a>
+          <div class="mega-dropdown">
+            <div class="mega-content">
+              <!-- Put columns, lists, images, or whatever here -->
+              <div class="col">
+                  <h4>Collection</h4>
+                  {% for type in product_types %}
+                      <a href="{% url 'store:product_list' %}?product_type={{ type.name|urlencode }}">{{ type.name }}</a>
+                  {% endfor %}
+              </div>
+              
+              
+              <!-- add more cols as needed -->
+            </div>
+          </div>
+        </li>
       </ul>
     </nav>
   </div>
