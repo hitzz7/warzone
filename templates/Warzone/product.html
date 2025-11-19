@@ -1,9 +1,11 @@
 {% extends './navbar.html' %}
 {% load static %}
+{% load cache %}
 
 {% block title %}Our Products{% endblock %}
 
 {% block content %}
+
 <div class="container" style="display: flex; justify-content: flex-start; margin-bottom: -20px;">
     {% if product_type_name %}
         <h1>{{ product_type_name }} Collection</h1>
@@ -13,6 +15,7 @@
         <h1>All Products</h1>
     {% endif %}
 </div>
+
 <div class="subcategory-container" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
     {% if subcategories %}
         {% for sub in subcategories %}
@@ -24,23 +27,19 @@
     {% endif %}
 </div>
 
-
 <form id="filterForm" method="get" style="text-align: center; margin-bottom: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; align-items: center;">
-
-    <!-- Subcategory Filter -->
     {% if subcategories %}
-    <label for="subcategory">Subcategory:</label>
-    <select name="subcategory" id="subcategory" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc;">
-        <option value="">All Subcategories</option>
-        {% for sub in subcategories %}
-            <option value="{{ sub.slug }}" {% if request.GET.subcategory == sub.slug %}selected{% endif %}>
-                {{ sub.name }}
-            </option>
-        {% endfor %}
-    </select>
+        <label for="subcategory">Subcategory:</label>
+        <select name="subcategory" id="subcategory" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <option value="">All Subcategories</option>
+            {% for sub in subcategories %}
+                <option value="{{ sub.slug }}" {% if request.GET.subcategory == sub.slug %}selected{% endif %}>
+                    {{ sub.name }}
+                </option>
+            {% endfor %}
+        </select>
     {% endif %}
 
-    <!-- Size Filter -->
     <label for="size">Size:</label>
     <select name="size" id="size" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc;">
         <option value="">All Sizes</option>
@@ -50,6 +49,7 @@
             </option>
         {% endfor %}
     </select>
+
     <label for="color">Colors:</label>
     <select name="color" id="color" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc;">
         <option value="">All Colors</option>
@@ -59,17 +59,17 @@
             </option>
         {% endfor %}
     </select>
+
     <label for="type">Type:</label>
     <select name="type" id="type" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc;">
         <option value="">All Types</option>
         {% for t in product_types %}
-            <option value="{{ t.name }}" {% if request.GET.type == t %}selected{% endif %}>
+            <option value="{{ t.name }}" {% if request.GET.type == t.name %}selected{% endif %}>
                 {{ t.name }}
             </option>
         {% endfor %}
     </select>
 
-    <!-- Sort Filter -->
     <label for="sort">Sort By:</label>
     <select name="sort" id="sort" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc;">
         <option value="">Sort By</option>
@@ -77,54 +77,53 @@
         <option value="price_high_low" {% if request.GET.sort == "price_high_low" %}selected{% endif %}>Price: High to Low</option>
         <option value="newest" {% if request.GET.sort == "newest" %}selected{% endif %}>Newest</option>
     </select>
-
 </form>
-
-
 
 <div class="container">
 
-  <!-- Current Category -->
-  
-
-  <!-- Subcategories -->
-  
-
-  <!-- Products Grid -->
-  <div class="product-grid">
-    {% for product in products %}
-    <div class="product-item">
-        <!-- Card with Image only -->
-        <div class="product-card">
-            <a href="{% url 'store:product_detail' product.slug %}">
-                {% with product.images.first as feature_image %}
-                    {% if feature_image %}
-                        <img src="{{ feature_image.image.url }}" loading="lazy" alt="{{ product.title }}">
+    <!-- Products Grid -->
+    {% cache 300 product_list_page request.GET.page %}
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-item">
+            <div class="product-card">
+                <a href="{% url 'store:product_detail' product.slug %}">
+                    {% if product.prefetched_images %}
+                        <img src="{{ product.prefetched_images.0.image.url }}" loading="lazy" alt="{{ product.title }}">
                     {% else %}
                         <img src="{% static 'no-image.png' %}" alt="No image available">
                     {% endif %}
-                {% endwith %}
-            </a>
-        </div>
+                </a>
+            </div>
 
-        <!-- Product Info outside of card -->
-        <div class="product-info">
-            <h3 class="product-title">{{ product.title }}</h3>
-            
-            <p class="product-price">
-                {% if product.discount_price %}
-                    <span class="discount-price">Rs {{ product.discount_price }}</span>
-                {% else %}
-                    <span class="regular-price">Rs {{ product.regular_price }}</span>
-                {% endif %}
-            </p>
+            <div class="product-info">
+                <h3 class="product-title">{{ product.title }}</h3>
+                <p class="product-price">
+                    {% if product.discount_price %}
+                        <span class="discount-price">Rs {{ product.discount_price }}</span>
+                    {% else %}
+                        <span class="regular-price">Rs {{ product.regular_price }}</span>
+                    {% endif %}
+                </p>
+            </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+    {% endcache %}
 
-    <!-- Manually added product 1 -->
-    
+    <!-- Pagination -->
+    <div class="pagination" style="text-align:center; margin:30px 0;">
+        {% if products.has_previous %}
+            <a href="?page={{ products.previous_page_number }}{% if request.GET.size %}&size={{ request.GET.size }}{% endif %}{% if request.GET.color %}&color={{ request.GET.color }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">Previous</a>
+        {% endif %}
 
+        <span>Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
+
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}{% if request.GET.size %}&size={{ request.GET.size }}{% endif %}{% if request.GET.color %}&color={{ request.GET.color }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">Next</a>
+        {% endif %}
+    </div>
 
 </div>
+
 {% endblock %}

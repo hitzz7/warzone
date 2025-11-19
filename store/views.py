@@ -38,7 +38,9 @@ from django.db.models import Q
 
 from django.utils import timezone
 from .models import Coupon
-from django.db.models import Sum
+from django.db.models import Sum,Prefetch
+from django.core.paginator import Paginator
+
 
 
 
@@ -62,7 +64,9 @@ def home(request):
 
 def product_list(request, category_slug=None, parent_slug=None):
     category = None
-    products = Product.objects.filter(is_active=True)
+    products = Product.objects.filter(is_active=True).prefetch_related(
+        Prefetch("images", to_attr="prefetched_images")
+    )
     subcategories = None
     sizes = Size.objects.all()
     colors = Color.objects.all()
@@ -111,6 +115,11 @@ def product_list(request, category_slug=None, parent_slug=None):
     elif sort == "best_selling":
         products = products.annotate(total_sold=Sum("orderitem__quantity")).order_by("-total_sold", "-created_at")
 
+    
+    paginator = Paginator(products, 12)  # 12 products per page
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number) 
+    
     context = {
         "category": category,
         "subcategories": subcategories,
